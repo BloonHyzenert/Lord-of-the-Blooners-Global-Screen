@@ -2,6 +2,6 @@
 Video Game Smartphone/Global Screen (Screen Side)
 
 Affichage :
-L'écran affichera la carte, les scores et les évènements qui se réaliseront ainsi que les forces et faiblesse de chacun.
+L'écran affichera la carte, les scores et les évènements qui se réaliseront ainsi que les forces et faiblesse de chacun. La carte sera vu du dessus et chaque couleur représentera chaque équipe.
 
 Serveur :
