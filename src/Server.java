@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class Server {
 	
-	private static int PORT = 138;
+	private static int PORT = 7777;
 	
 	private static boolean isRunning = true;
 	
@@ -41,20 +41,22 @@ public class Server {
 	      //Gestion des clients
 	      Thread t = new Thread(new Runnable(){
 	         public void run(){
-	            while(isRunning == true){
-	               try {
-	                  //Attente d'un client
-	                  Socket client = server.accept();
-	                  
-	                  //Traitement de la requête                
-	                  System.out.println("Connexion cliente reçue.");                  
-	                  Thread t = new Thread(new ClientRequest(client));
-	                  t.start();
-	                 
-
-	               } catch (IOException e) {
-	                  e.printStackTrace();
-	               }
+	            while(isRunning == true){ 
+	            	
+	               //Attente d'un client
+				  try { 
+					  
+					  Socket client = server.accept();
+				      
+					  //Traitement de la requête                
+					  System.out.println("Connexion cliente reçue.");                  
+					  Thread t = new Thread(new ClientRequest(client));
+					  t.start();
+					
+				} catch (IOException e) {
+					// En attente
+	                  //e.printStackTrace();
+				} 
 	            }
 	           
 	            try {
