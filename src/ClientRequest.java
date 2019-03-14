@@ -24,10 +24,7 @@ public class ClientRequest  implements Runnable {
 	      //tant que la connexion est active, on traite les demandes
 	      while(!sock.isClosed()){
 	         
-	         try {
-	            
-	            //Ici, nous n'utilisons pas les mêmes objets que précédemment
-	            //Je vous expliquerai pourquoi ensuite
+	         try { 
 	            writer = new PrintWriter(sock.getOutputStream());
 	            reader = new BufferedInputStream(sock.getInputStream());
 	            
@@ -35,7 +32,7 @@ public class ClientRequest  implements Runnable {
 	            String response = read();
 	            InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 	            
-	            //On affiche quelques infos, pour le débuggage
+	            //On affiche quelques infos 
 	            String debug = "";
 	            debug = "Thread : " + Thread.currentThread().getName() + ". ";
 	            debug += "Demande de l'adresse : " + remote.getAddress().getHostAddress() +".";
@@ -43,15 +40,12 @@ public class ClientRequest  implements Runnable {
 	            debug += "\t -> Commande reçue : " + response + "\n";
 	            System.err.println("\n" + debug);
 	            
-	            //On traite la demande du client en fonction de la commande envoyée
-	            String toSend = "";
+	            //Taritement de la demande du client en fonction de la commande envoyée
+	            String toSend = "Accepted";
 	          
 	            
-	            //On envoie la réponse au client
+	            //Envoie la réponse au client
 	            writer.write(toSend);
-	            //Il FAUT IMPERATIVEMENT UTILISER flush()
-	            //Sinon les données ne seront pas transmises au client
-	            //et il attendra indéfiniment
 	            writer.flush();
 	            
 	            if(closeConnexion){
@@ -65,7 +59,7 @@ public class ClientRequest  implements Runnable {
 	            System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
 	            break;
 	         } catch (IOException e) {
-	            e.printStackTrace();
+	             e.printStackTrace();
 	         }         
 	      }
 	   }
