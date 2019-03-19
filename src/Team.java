@@ -27,8 +27,8 @@ public class Team {
 		return playerList;
 	}
 
-	public void addPlayer(Socket tSocket) {
-		Player player = new Player(size()+1, tSocket, name);
+	public void addPlayer(ClientRequest dialog, String pseudo) {
+		Player player = new Player(size()+1, dialog,pseudo ,this);
 		this.playerList.add(player);
 	}
 

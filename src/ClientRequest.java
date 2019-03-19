@@ -7,7 +7,7 @@ import java.net.SocketException;
 
 public class ClientRequest  implements Runnable {
 	
-	private Socket sock;	   
+	private Socket sock; 	   
 	private PrintWriter writer = null;	   
 	private BufferedInputStream reader = null;
 
@@ -32,13 +32,9 @@ public class ClientRequest  implements Runnable {
 	            String response = read();
 	            InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 	            
-	            //On affiche quelques infos 
-	            String debug = "";
-	            debug = "Thread : " + Thread.currentThread().getName() + ". ";
-	            debug += "Demande de l'adresse : " + remote.getAddress().getHostAddress() +".";
-	            debug += " Sur le port : " + remote.getPort() + ".\n";
-	            debug += "\t -> Commande reçue : " + response + "\n";
-	            System.err.println("\n" + debug);
+	            String tabInfos[] = response.split(",");
+	            
+	            //if(Integer.parseInt(tabInfos[0])==0)
 	            
 	            //Taritement de la demande du client en fonction de la commande envoyée
 	            String toSend = "Accepted";

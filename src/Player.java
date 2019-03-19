@@ -4,25 +4,28 @@ public class Player {
 
 	private int playerID;
 	
-	private String team;
+	private String pseudo;
 	
-	private Socket socket;
+	private Team team;
+	
+	private ClientRequest dialog;
 	
 	private Position position;
 	
-	public Player(int tPlayerID,Socket tSocket,String tName) {
-		setSocket(tSocket);
+	public Player(int tPlayerID,ClientRequest dialog,String tPseudo, Team team) {
+		setDialog(dialog);
 		playerID=tPlayerID;
-		setTeam(tName);
+		setTeam(team);
 		setStartPosition();
+		setPseudo(tPseudo);
 	}
-	
+
 	public void move(int dx, int dy) {
 		setPosition(new Position(position.getX()+dx,position.getY()+dy));
 	}
 
 	public void setStartPosition() {
-		switch(team) {
+		switch(team.getName()) {
 		case "Krok":
 			setPosition(new Position(0,-Configuration.MAXMAPSIZE/2));
 			break;
@@ -45,12 +48,12 @@ public class Player {
 		return playerID;
 	}
 
-	public Socket getSocket() {
-		return socket;
+	public ClientRequest getDialog() {
+		return dialog;
 	}
 
-	public void setSocket(Socket socket) {
-		this.socket = socket;
+	public void setDialog(ClientRequest socket) {
+		this.dialog = socket;
 	}
 
 	public Position getPosition() {
@@ -61,11 +64,20 @@ public class Player {
 		this.position = position;
 	}
 
-	public String getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 
-	public void setTeam(String team) {
+	public void setTeam(Team team) {
 		this.team = team;
+	}
+	
+	public void setPseudo(String tPseudo) {
+		pseudo=tPseudo;
+		
+	}
+	
+	public String getPseudo() {
+		return pseudo;
 	}
 }

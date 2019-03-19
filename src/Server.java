@@ -11,12 +11,13 @@ public class Server {
 	
 	private static ServerSocket server;
 	
-	private String host = "127.0.0.1";
+	private String host = "192.168.1.2";
 	
 	public void create() {
 		// Création socket du serveur
 		try {
 			server = new ServerSocket(PORT,100,InetAddress.getByName(host));
+			System.err.println("Port " + PORT + " IP " + host);
 		} catch (IOException e) {			
 			// Problème port
 			System.err.println("Le port " + PORT + " est déjà utilisé ! ");
@@ -55,7 +56,8 @@ public class Server {
 					
 				} catch (IOException e) {
 					// En attente
-	                  //e.printStackTrace();
+					//System.out.println("En attente.....");
+	                 e.printStackTrace();
 				} 
 	            }
 	           
