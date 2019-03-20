@@ -10,6 +10,8 @@ public class ClientRequest  implements Runnable {
 	private Socket sock; 	   
 	private PrintWriter writer = null;	   
 	private BufferedInputStream reader = null;
+	private Player player;
+	private String toSend;
 
 	public ClientRequest(Socket client){
 		sock=client;
@@ -30,16 +32,22 @@ public class ClientRequest  implements Runnable {
 	            
 	            //On attend la demande du client            
 	            String response = read();
-	            InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
+	            //InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 	            
 	            String tabInfos[] = response.split(",");
+	            if(Integer.parseInt(tabInfos[0])==0) {
+	            	player = new Player(this,tabInfos[1]);
+	            	Setup.addPlayer(player);	            
+	            	toSend = player.getPlayerID() +","+player.getPseudo()+","+player.getTeam().getName();
+	            }
+	            else if(player.getPlayerID()==Integer.parseInt(tabInfos[0])) {
+	            		toSend = player.getPlayerID()+","+player.getPosition().toString();
+	            		player.move(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
+	            }
+	            		
+	            else toSend="Erreur";
 	            
-	            //if(Integer.parseInt(tabInfos[0])==0)
-	            
-	            //Taritement de la demande du client en fonction de la commande envoyée
-	            String toSend = "Accepted";
-	          
-	            
+	          System.out.println(toSend);
 	            //Envoie la réponse au client
 	            writer.write(toSend);
 	            writer.flush();

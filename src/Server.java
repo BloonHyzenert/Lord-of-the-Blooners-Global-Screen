@@ -11,7 +11,7 @@ public class Server {
 	
 	private static ServerSocket server;
 	
-	private String host = "192.168.1.2";
+	private String host = "127.0.0.1";
 	
 	public void create() {
 		// Création socket du serveur

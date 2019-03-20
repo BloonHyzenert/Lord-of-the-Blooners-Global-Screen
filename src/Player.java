@@ -4,6 +4,8 @@ public class Player {
 
 	private int playerID;
 	
+	private static int nbPlayer=0;
+	
 	private String pseudo;
 	
 	private Team team;
@@ -12,12 +14,11 @@ public class Player {
 	
 	private Position position;
 	
-	public Player(int tPlayerID,ClientRequest dialog,String tPseudo, Team team) {
+	public Player(ClientRequest dialog,String tPseudo) {
 		setDialog(dialog);
-		playerID=tPlayerID;
-		setTeam(team);
-		setStartPosition();
+		position = new Position();
 		setPseudo(tPseudo);
+		playerID=++nbPlayer;
 	}
 
 	public void move(int dx, int dy) {
