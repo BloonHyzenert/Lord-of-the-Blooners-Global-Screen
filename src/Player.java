@@ -19,6 +19,8 @@ public class Player {
 		position = new Position();
 		setPseudo(tPseudo);
 		playerID=++nbPlayer;
+		System.out.println("Le joueur n°"+getPlayerID()+" : "+getPseudo()+" a rejoint la partie");
+		
 	}
 
 	public void move(int dx, int dy) {

@@ -13,6 +13,8 @@ public class ClientRequest  implements Runnable {
 	private Player player;
 	private String toSend;
 
+    private boolean closeConnexion = false;
+
 	public ClientRequest(Socket client){
 		sock=client;
 	}
@@ -20,9 +22,8 @@ public class ClientRequest  implements Runnable {
 	@Override
 	public void run() {
 		// Traitement de la connexion
-		System.err.println("Lancement du traitement de la connexion cliente");
+		//System.err.println("Lancement du traitement de la connexion cliente");
 
-	      boolean closeConnexion = false;
 	      //tant que la connexion est active, on traite les demandes
 	      while(!sock.isClosed()){
 	         
@@ -33,7 +34,7 @@ public class ClientRequest  implements Runnable {
 	            //On attend la demande du client            
 	            String response = read();
 	            //InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
-	            
+	            if(response!="") {
 	            String tabInfos[] = response.split(",");
 	            if(Integer.parseInt(tabInfos[0])==0) {
 	            	player = new Player(this,tabInfos[1]);
@@ -47,35 +48,41 @@ public class ClientRequest  implements Runnable {
 	            		
 	            else toSend="Erreur";
 	            
-	          System.out.println(toSend);
+	          //System.out.println(toSend);
 	            //Envoie la réponse au client
 	            writer.write(toSend);
 	            writer.flush();
+	            }
 	            
 	            if(closeConnexion){
-	               System.err.println("COMMANDE CLOSE DETECTEE ! ");
+	               //System.err.println("COMMANDE CLOSE DETECTEE ! ");
+	 	          player.getTeam().removePlayer(player);
 	               writer = null;
 	               reader = null;
 	               sock.close();
 	               break;
 	            }
 	         }catch(SocketException e){
-	            System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
+	            //System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
+	            
 	            break;
 	         } catch (IOException e) {
-	             e.printStackTrace();
 	         }         
 	      }
+	      
 	   }
 
 	   //Méthode pour lire les réponses
 
 	   private String read() throws IOException{      
 	      String response = "";
-	      int stream;
+	      int stream=0;
 	      byte[] b = new byte[4096];
 	      stream = reader.read(b);
-	      response = new String(b, 0, stream);
+	      if(stream==-1) {
+	    	  closeConnexion=true;
+	      }
+	      else response = new String(b, 0, stream);
 
 	      return response;
 	   }

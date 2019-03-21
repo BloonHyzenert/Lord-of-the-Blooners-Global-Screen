@@ -13,9 +13,6 @@ public class Launcher {
 		
 		server.open();
 		
-		
-		System.out.println("It works");
-		
 
 	}
 
