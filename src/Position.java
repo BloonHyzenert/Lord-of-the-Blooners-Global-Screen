@@ -34,4 +34,8 @@ public class Position {
 	public void setX(int x) {
 		this.x = x;
 	}
+	
+	public String toString() {
+		return x+","+y;
+	}
 }

@@ -27,10 +27,16 @@ public class Team {
 		return playerList;
 	}
 
-	public void addPlayer(Socket tSocket) {
-		Player player = new Player(size()+1, tSocket, name);
+	public void addPlayer(Player player) {
+		player.setTeam(this);
 		this.playerList.add(player);
 	}
+	
+	public void removePlayer(Player player) {
+		System.out.println("Le joueur n°"+player.getPlayerID()+" : "+player.getPseudo()+" a quitte la partie");
+		this.playerList.remove(player);
+	}
+	
 
 	public Team getStrong() {
 		return strong;

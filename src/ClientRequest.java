@@ -7,9 +7,13 @@ import java.net.SocketException;
 
 public class ClientRequest  implements Runnable {
 	
-	private Socket sock;	   
+	private Socket sock; 	   
 	private PrintWriter writer = null;	   
 	private BufferedInputStream reader = null;
+	private Player player;
+	private String toSend;
+
+    private boolean closeConnexion = false;
 
 	public ClientRequest(Socket client){
 		sock=client;
@@ -18,9 +22,8 @@ public class ClientRequest  implements Runnable {
 	@Override
 	public void run() {
 		// Traitement de la connexion
-		System.err.println("Lancement du traitement de la connexion cliente");
+		//System.err.println("Lancement du traitement de la connexion cliente");
 
-	      boolean closeConnexion = false;
 	      //tant que la connexion est active, on traite les demandes
 	      while(!sock.isClosed()){
 	         
@@ -30,48 +33,56 @@ public class ClientRequest  implements Runnable {
 	            
 	            //On attend la demande du client            
 	            String response = read();
-	            InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
+	            //InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
+	            if(response!="") {
+	            String tabInfos[] = response.split(",");
+	            if(Integer.parseInt(tabInfos[0])==0) {
+	            	player = new Player(this,tabInfos[1]);
+	            	Setup.addPlayer(player);	            
+	            	toSend = player.getPlayerID() +","+player.getPseudo()+","+player.getTeam().getName();
+	            }
+	            else if(player.getPlayerID()==Integer.parseInt(tabInfos[0])) {
+	            		toSend = player.getPlayerID()+","+player.getPosition().toString();
+	            		player.move(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
+	            }
+	            		
+	            else toSend="Erreur";
 	            
-	            //On affiche quelques infos 
-	            String debug = "";
-	            debug = "Thread : " + Thread.currentThread().getName() + ". ";
-	            debug += "Demande de l'adresse : " + remote.getAddress().getHostAddress() +".";
-	            debug += " Sur le port : " + remote.getPort() + ".\n";
-	            debug += "\t -> Commande reçue : " + response + "\n";
-	            System.err.println("\n" + debug);
-	            
-	            //Taritement de la demande du client en fonction de la commande envoyée
-	            String toSend = "Accepted";
-	          
-	            
+	          //System.out.println(toSend);
 	            //Envoie la réponse au client
 	            writer.write(toSend);
 	            writer.flush();
+	            }
 	            
 	            if(closeConnexion){
-	               System.err.println("COMMANDE CLOSE DETECTEE ! ");
+	               //System.err.println("COMMANDE CLOSE DETECTEE ! ");
+	 	          player.getTeam().removePlayer(player);
 	               writer = null;
 	               reader = null;
 	               sock.close();
 	               break;
 	            }
 	         }catch(SocketException e){
-	            System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
+	            //System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
+	            
 	            break;
 	         } catch (IOException e) {
-	             e.printStackTrace();
 	         }         
 	      }
+	      
 	   }
 
 	   //Méthode pour lire les réponses
 
 	   private String read() throws IOException{      
 	      String response = "";
-	      int stream;
+	      int stream=0;
 	      byte[] b = new byte[4096];
 	      stream = reader.read(b);
-	      response = new String(b, 0, stream);
+	      if(stream==-1) {
+	    	  closeConnexion=true;
+	      }
+	      else response = new String(b, 0, stream);
 
 	      return response;
 	   }
