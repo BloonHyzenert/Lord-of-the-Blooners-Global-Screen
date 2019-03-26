@@ -7,7 +7,7 @@ public class Setup {
 	private static Team grounch = new Team("Grounch");	
 	private static Team blurp = new Team("Blurp"); 
 	
-	private Team item = new Team("Item");
+	private static Team item = new Team("Item");
 
 	public Setup() {
 		krok.setStrong(blurp);
@@ -35,19 +35,19 @@ public class Setup {
 		add.addPlayer(player);
 	}
 
-	public Team getKrok() {
+	public static Team getKrok() {
 		return krok;
 	}
 
-	public Team getGrounch() {
+	public static Team getGrounch() {
 		return grounch;
 	}
 
-	public Team getBlurp() {
+	public static Team getBlurp() {
 		return blurp;
 	}
 
-	public Team getItem() {
+	public static Team getItem() {
 		return item;
 	}
 	
