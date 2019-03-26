@@ -10,11 +10,11 @@ public class Launcher {
 		game.init();
         Application.launch(Display.class, args);
 		
-		//Server server = new Server();
+		Server server = new Server();
 		
-		//server.create();
+		server.create();
 		
-		//server.open();
+		server.open();
 		
 
 	}

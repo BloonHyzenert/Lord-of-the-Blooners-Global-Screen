@@ -6,12 +6,19 @@ public class Team {
 
 	private String name;
 	
+	private String color;
+	
+	public String getColor() {
+		return color;
+	}
+
 	private List<Player> playerList;
 	
 	private Team strong;
 	
-	public Team(String tname) {
+	public Team(String tname,String tcolor) {
 		name=tname;
+		color=tcolor;
 		playerList = new ArrayList<Player>(0);
 	}
 	

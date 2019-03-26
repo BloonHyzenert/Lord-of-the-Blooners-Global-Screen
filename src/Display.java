@@ -1,3 +1,4 @@
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,14 +12,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Display extends Application{
+	
+	private Stage primaryStage;
+	private Group root;
+
+    static int d=0;
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage stage) {
+		this.primaryStage=stage;
 		
         primaryStage.setTitle("Lord of the Blooners");
-        Group root = new Group();
+        root = new Group();
         Scene scene = new Scene(root, 800, 600, Color.GRAY);    
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
@@ -44,7 +52,26 @@ public class Display extends Application{
 		primaryStage.setWidth(bounds.getWidth());
 		primaryStage.setHeight(bounds.getHeight());
 
+        board();
+	
         
+        for (int i = 0; i < Setup.getKrok().size(); i++) {
+			microbe(Setup.getKrok(),i);
+		
+		}
+        for (int i = 0; i < Setup.getBlurp().size(); i++) {
+			microbe(Setup.getBlurp(),i);
+		
+		}
+        for (int i = 0; i < Setup.getGrounch().size(); i++) {
+			microbe(Setup.getGrounch(),i);
+		
+		}
+        
+        primaryStage.show();
+	}
+
+	private void board() {
 
         Circle plateau = new Circle();
 
@@ -53,29 +80,44 @@ public class Display extends Application{
         plateau.setRadius(primaryStage.getHeight()/2-10);
         plateau.setFill(Color.BLACK);
         plateau.setStroke(Color.RED);
-        plateau.setStrokeWidth(1);		
+        plateau.setStrokeWidth(1);	
         
-        for (int i = 0; i < Setup.getKrok().size(); i++) {
-			microbe(Setup.getKrok(),i);
-		}
-		
-        /*Button btn = new Button();
-        btn.setLayoutX(100);
-        btn.setLayoutY(80);
-        btn.setText("Hello World");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World");
-            }
-        });
-
-        root.getChildren().add(btn); */  
-		
         root.getChildren().add(plateau);
-        primaryStage.show();
+		
 	}
-	
 	private void microbe( Team team ,int i) {
+        Circle pion = new Circle();
+
+        pion.setCenterX(team.getPlayerList().get(i).getPosition().getX()+d*Configuration.PIONSIZE);
+        pion.setCenterY(team.getPlayerList().get(i).getPosition().getY());
+        pion.setRadius(Configuration.PIONSIZE);
+        switch (team.getColor()) {
+		case "red":
+	        pion.setFill(Color.RED);
+			break;
+		case "yellow":
+	        pion.setFill(Color.YELLOW);
+			break;
+		case "blue":
+	        pion.setFill(Color.BLUE);
+			break;
+
+		default:
+			break;
+		}
+        pion.setStroke(Color.BLACK);
+        
+        pion.setStrokeWidth(0);	TranslateTransition translateTransition = new TranslateTransition(); 
+        translateTransition.setDuration(Duration.millis(1000)); 
+        
+        translateTransition.setNode(pion);  
+        translateTransition.setByX(300); 
+        translateTransition.setCycleCount(50); 
+        translateTransition.setAutoReverse(false);  
+        translateTransition.play(); 
+        
+        root.getChildren().add(pion);
+        //d++;
 		
 	}
 

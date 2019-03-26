@@ -3,11 +3,11 @@ public class Setup {
 	
 	final int FACTEUR_TAILLE = 10;
 	
-	private static Team krok = new Team("Krok"); 	
-	private static Team grounch = new Team("Grounch");	
-	private static Team blurp = new Team("Blurp"); 
+	private static Team krok = new Team("Krok","yellow"); 	
+	private static Team grounch = new Team("Grounch","red");	
+	private static Team blurp = new Team("Blurp","blue"); 
 	
-	private static Team item = new Team("Item");
+	private static Team item = new Team("Item","white");
 
 	public Setup() {
 		krok.setStrong(blurp);
