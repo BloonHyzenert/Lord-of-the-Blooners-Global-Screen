@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class Server {
 	
-	private static int PORT = 7777;
+	private static int PORT = 7778;
 	
 	private static boolean isRunning = true;
 	
@@ -16,8 +16,8 @@ public class Server {
 	public void create() {
 		// Création socket du serveur
 		try {
-			server = new ServerSocket(PORT,100,InetAddress.getByName(host));
-			System.err.println("Lancement : Port " + PORT + " IP " + host);
+			server = new ServerSocket(PORT,100);
+			System.err.println("Lancement : Port " + PORT);
 		} catch (IOException e) {			
 			// Problème port
 			System.err.println("Le port " + PORT + " est déjà utilisé ! ");

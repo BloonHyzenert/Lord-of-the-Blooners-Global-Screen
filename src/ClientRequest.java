@@ -43,7 +43,8 @@ public class ClientRequest  implements Runnable {
 	            }
 	            else if(player.getPlayerID()==Integer.parseInt(tabInfos[0])) {
 	            		toSend = player.getPlayerID()+","+player.getPosition().toString();
-	            		player.move(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
+	            		player.getPosition().movePosition(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
+	            		System.out.println("Le joueur n°"+player.getPlayerID()+" est à la position "+player.getPosition().toString());
 	            }
 	            		
 	            else toSend="Erreur";
