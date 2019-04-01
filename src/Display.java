@@ -1,12 +1,10 @@
+
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -18,8 +16,6 @@ public class Display extends Application{
 	
 	private Stage primaryStage;
 	private Group root;
-
-    static int d=0;
 
 	@Override
 	public void start(Stage stage) {
@@ -36,7 +32,10 @@ public class Display extends Application{
             public void handle(KeyEvent t) {
             	switch (t.getCode()) {
 				case ESCAPE :
-		               primaryStage.close();	
+					Configuration.END=true;
+		               primaryStage.close();
+		               System.exit(0);
+		               
 					break;
 
 				default:
@@ -73,22 +72,31 @@ public class Display extends Application{
 
 	private void board() {
 
-        Circle plateau = new Circle();
+        Circle board = new Circle();
 
-        plateau.setCenterX(primaryStage.getWidth()/2);
-        plateau.setCenterY(primaryStage.getHeight()/2);
-        plateau.setRadius(primaryStage.getHeight()/2-10);
-        plateau.setFill(Color.BLACK);
-        plateau.setStroke(Color.RED);
-        plateau.setStrokeWidth(1);	
+        board.setCenterX(primaryStage.getWidth()/2);
+        board.setCenterY(primaryStage.getHeight()/2);
+        board.setRadius(primaryStage.getHeight()/2-10);
+        board.setFill(Color.BLACK);
+        board.setStroke(Color.RED);
+        board.setStrokeWidth(1);	
         
-        root.getChildren().add(plateau);
+        TranslateTransition translateTransition = new TranslateTransition(); 
+        translateTransition.setDuration(Duration.millis(1000)); 
+        
+        translateTransition.setNode(board);  
+        translateTransition.setByX(500); 
+        translateTransition.setCycleCount(50); 
+        translateTransition.setAutoReverse(false);  
+        translateTransition.play(); 
+        
+        root.getChildren().add(board);
 		
 	}
 	private void microbe( Team team ,int i) {
         Circle pion = new Circle();
 
-        pion.setCenterX(team.getPlayerList().get(i).getPosition().getX()+d*Configuration.PIONSIZE);
+        pion.setCenterX(team.getPlayerList().get(i).getPosition().getX());
         pion.setCenterY(team.getPlayerList().get(i).getPosition().getY());
         pion.setRadius(Configuration.PIONSIZE);
         switch (team.getColor()) {
@@ -107,17 +115,18 @@ public class Display extends Application{
 		}
         pion.setStroke(Color.BLACK);
         
-        pion.setStrokeWidth(0);	TranslateTransition translateTransition = new TranslateTransition(); 
+        pion.setStrokeWidth(0);	
+        
+        TranslateTransition translateTransition = new TranslateTransition(); 
         translateTransition.setDuration(Duration.millis(1000)); 
         
         translateTransition.setNode(pion);  
-        translateTransition.setByX(300); 
+        translateTransition.setByX(1); 
         translateTransition.setCycleCount(50); 
         translateTransition.setAutoReverse(false);  
         translateTransition.play(); 
         
         root.getChildren().add(pion);
-        //d++;
 		
 	}
 

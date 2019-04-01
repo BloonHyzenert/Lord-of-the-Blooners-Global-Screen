@@ -1,4 +1,4 @@
-import java.net.Socket;
+
 
 import javafx.application.Application;
 
@@ -8,7 +8,6 @@ public class Launcher {
 		
 		Setup game = new Setup();
 		game.init();
-        Application.launch(Display.class, args);
 		
 		Server server = new Server();
 		
@@ -16,6 +15,7 @@ public class Launcher {
 		
 		server.open();
 		
+        Application.launch(Display.class, args);
 
 	}
 

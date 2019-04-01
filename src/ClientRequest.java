@@ -54,8 +54,9 @@ public class ClientRequest  implements Runnable {
 	            writer.flush();
 	            }
 	            
-	            if(closeConnexion){
+	            if(closeConnexion || Configuration.END){
 	               //System.err.println("COMMANDE CLOSE DETECTEE ! ");
+	            	closeConnexion=true;
 	 	          player.getTeam().removePlayer(player);
 	               writer = null;
 	               reader = null;
