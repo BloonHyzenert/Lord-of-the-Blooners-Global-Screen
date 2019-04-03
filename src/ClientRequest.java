@@ -28,22 +28,24 @@ public class ClientRequest  implements Runnable {
 	      while(!sock.isClosed()){
 	         
 	         try { 
+	     		sock.setSoTimeout(1000);
 	            writer = new PrintWriter(sock.getOutputStream());
 	            reader = new BufferedInputStream(sock.getInputStream());
 	            
 	            //On attend la demande du client            
 	            String response = read();
+	            //System.out.println(response);
 	            //InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 	            if(response!="") {
 	            String tabInfos[] = response.split(",");
 	            if(Integer.parseInt(tabInfos[0])==0) {	
 	            	player = new Player(this,tabInfos[1]);            
-	            	toSend = player.getPlayerID() +","+player.getPseudo()+","+player.getTeam().getName();
+	            	toSend = player.getPlayerID() +","+player.getPseudo()+","+player.getTeam().getName()+","+player.getPosition().toString();
 	            }
 	            else if(player.getPlayerID()==Integer.parseInt(tabInfos[0])) {
+	            		player.move(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
 	            		toSend = player.getPlayerID()+","+player.getPosition().toString();
-	            		player.getPosition().movePosition(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
-	            		System.out.println("Le joueur n°"+player.getPlayerID()+" est à la position "+player.getPosition().toString());
+	            		//System.out.println("Le joueur n°"+player.getPlayerID()+" est à la position "+player.getPosition().toString());
 	            }
 	            		
 	            else toSend="Erreur";
@@ -64,10 +66,10 @@ public class ClientRequest  implements Runnable {
 	               break;
 	            }
 	         }catch(SocketException e){
-	            //System.err.println("LA CONNEXION A ETE INTERROMPUE ! ");
-	            
+		    	  closeConnexion=true;  	             
 	            break;
 	         } catch (IOException e) {
+		    	  closeConnexion=true;  
 	         }         
 	      }
 	      

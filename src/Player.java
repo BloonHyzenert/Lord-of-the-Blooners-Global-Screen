@@ -20,7 +20,7 @@ public class Player {
 	
 	public Player(ClientRequest dialog,String tPseudo) {
 		setDialog(dialog);
-		position = new Position();
+		position = new Position(Configuration.WIDTH/2,Configuration.HEIGHT/2);
 		setPseudo(tPseudo);
 		playerID=++nbPlayer;
     	Setup.addPlayer(this);
@@ -38,10 +38,16 @@ public class Player {
 	}
 
 	public void move(int dx, int dy) {
-		setPosition(new Position(position.getX()+dx,position.getY()+dy));
+		position.move(position.getX()+dx,position.getY()+dy);
+		if(pion!=null) {
+		pion.setCenterX(position.getX());
+		pion.setCenterY(position.getY());
+		
+		}
 	}
 
 	public void setStartPosition() {
+		System.out.println("setStartPosition");
 		switch(team.getName()) {
 		case "Krok":
 			setPosition(new Position(0,-Configuration.MAXMAPSIZE/2));
@@ -81,7 +87,7 @@ public class Player {
 		this.position = position;
 		if(pion!=null) {
 		pion.setTranslateX(position.getX());
-		pion.setTranslateX(position.getY());
+		pion.setTranslateY(position.getY());
 		}
 	}
 

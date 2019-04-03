@@ -14,7 +14,7 @@ public class Position {
 		setY(ty);
 	}
 	
-	public void movePosition(int dx, int dy) {
+	public void move(int dx, int dy) {
 		setX(dx);
 		setY(dy);
 	}

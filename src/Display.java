@@ -1,10 +1,13 @@
 
+import com.sun.javafx.geom.Shape;
+
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -15,7 +18,7 @@ import javafx.util.Duration;
 
 public class Display extends Application{
 	
-	private Stage primaryStage;
+	private static Stage primaryStage;
 	private static Group root;
 
 	@Override
@@ -51,8 +54,9 @@ public class Display extends Application{
 		primaryStage.setY(bounds.getMinY());
 		primaryStage.setWidth(bounds.getWidth());
 		primaryStage.setHeight(bounds.getHeight());
-		Configuration.WIDTH=bounds.getWidth();
-		Configuration.HEIGHT=bounds.getHeight();
+		Configuration.WIDTH=(int)bounds.getWidth();
+		Configuration.HEIGHT=(int)bounds.getHeight();
+		System.out.println(Configuration.WIDTH+"   "+Configuration.HEIGHT);
 		
 
         board();
@@ -96,9 +100,9 @@ public class Display extends Application{
 
         Circle board = new Circle();
 
-        board.setCenterX(primaryStage.getWidth()/2);
-        board.setCenterY(primaryStage.getHeight()/2);
-        board.setRadius(primaryStage.getHeight()/2-10);
+        board.setCenterX(Configuration.WIDTH/2);
+        board.setCenterY(Configuration.HEIGHT/2);
+        board.setRadius(Configuration.HEIGHT/2-10);
         board.setFill(Color.BLACK);
         board.setStroke(Color.RED);
         board.setStrokeWidth(1);	
@@ -146,8 +150,5 @@ public class Display extends Application{
         
 	}
 	
-	public static void remove(Object o) {
-		root.getChildren().remove(o);
-	}
 
 }
