@@ -36,9 +36,8 @@ public class ClientRequest  implements Runnable {
 	            //InetSocketAddress remote = (InetSocketAddress)sock.getRemoteSocketAddress();
 	            if(response!="") {
 	            String tabInfos[] = response.split(",");
-	            if(Integer.parseInt(tabInfos[0])==0) {
-	            	player = new Player(this,tabInfos[1]);
-	            	Setup.addPlayer(player);	            
+	            if(Integer.parseInt(tabInfos[0])==0) {	
+	            	player = new Player(this,tabInfos[1]);            
 	            	toSend = player.getPlayerID() +","+player.getPseudo()+","+player.getTeam().getName();
 	            }
 	            else if(player.getPlayerID()==Integer.parseInt(tabInfos[0])) {

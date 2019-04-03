@@ -5,8 +5,8 @@ public class Position {
 	private int y;
 	
 	public Position() {
-		setX(0);
-		setY(0);
+		setX((int)Configuration.WIDTH/2);
+		setY((int)Configuration.HEIGHT/2);
 	}
 	
 	public Position(int tx, int ty) {

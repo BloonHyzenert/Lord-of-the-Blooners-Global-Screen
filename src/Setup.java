@@ -17,7 +17,7 @@ public class Setup {
 	
 	public void init() {
 		Configuration.MAXMAPSIZE = (krok.size()+grounch.size()+blurp.size())*FACTEUR_TAILLE;
-		Configuration.MAXSIZE = Configuration.MAXMAPSIZE;
+		Configuration.MAPSIZE = Configuration.MAXMAPSIZE;
 		
 	}
 	

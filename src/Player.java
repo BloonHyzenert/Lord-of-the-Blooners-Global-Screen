@@ -1,5 +1,7 @@
 import java.net.Socket;
 
+import javafx.scene.shape.Circle;
+
 public class Player {
 
 	private int playerID;
@@ -10,6 +12,8 @@ public class Player {
 	
 	private Team team;
 	
+	private Circle pion;
+	
 	private ClientRequest dialog;
 	
 	private Position position;
@@ -19,8 +23,18 @@ public class Player {
 		position = new Position();
 		setPseudo(tPseudo);
 		playerID=++nbPlayer;
+    	Setup.addPlayer(this);
+    	Display.microbe(this);
 		System.out.println("Le joueur n°"+getPlayerID()+" : "+getPseudo()+" a rejoint la partie");
 		
+	}
+
+	public Circle getPion() {
+		return pion;
+	}
+
+	public void setPion(Circle pion) {
+		this.pion = pion;
 	}
 
 	public void move(int dx, int dy) {
@@ -65,6 +79,10 @@ public class Player {
 
 	public void setPosition(Position position) {
 		this.position = position;
+		if(pion!=null) {
+		pion.setTranslateX(position.getX());
+		pion.setTranslateX(position.getY());
+		}
 	}
 
 	public Team getTeam() {

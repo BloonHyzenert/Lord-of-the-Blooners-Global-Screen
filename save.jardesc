@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="Global-Screen/Lord_of_the_Blooners.jar"/>
+    <jar path="Global-Screen/Lord_of_the_Blooners_Interface.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/Global-Screen/save.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
