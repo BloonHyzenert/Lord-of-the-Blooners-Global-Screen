@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class Server {
 	
-	private static int PORT = 7777;
+	private static int PORT = 7778;
 	
 	private static boolean isRunning = true;
 	
