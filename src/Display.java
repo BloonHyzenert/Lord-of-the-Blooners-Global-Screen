@@ -1,4 +1,7 @@
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import com.sun.javafx.geom.Shape;
 
 import javafx.animation.TranslateTransition;
@@ -12,6 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,7 +34,7 @@ public class Display extends Application{
 		
         primaryStage.setTitle("Lord of the Blooners");
         root = new Group();
-        Scene scene = new Scene(root, 800, 600, Color.GRAY);    
+        Scene scene = new Scene(root, 800, 600, Color.BLACK);    
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
         
@@ -47,53 +54,18 @@ public class Display extends Application{
 				}
             }
         });
-		
-		Screen screen = Screen.getPrimary();
-		Rectangle2D bounds = screen.getVisualBounds();
-		primaryStage.setX(bounds.getMinX());
-		primaryStage.setY(bounds.getMinY());
-		primaryStage.setWidth(bounds.getWidth());
-		primaryStage.setHeight(bounds.getHeight());
-		Configuration.WIDTH=(int)bounds.getWidth();
-		Configuration.HEIGHT=(int)bounds.getHeight();
-		System.out.println(Configuration.WIDTH+"   "+Configuration.HEIGHT);
+    	      
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+		Configuration.WIDTH=dimension.width;
+		Configuration.HEIGHT=dimension.height;
+		System.out.println("Screen resolution : "+Configuration.WIDTH+"x"+Configuration.HEIGHT);
 		
 
         board();
+        scoreTable();
         
         primaryStage.show();
         
-		/*Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-				while(!Configuration.END) {
-				System.out.println("Do");
-				// TODO Auto-generated method stub
-				for (int i = 0; i < Setup.getBlurp().size(); i++) {
-
-					if(Setup.getBlurp().getPlayerList().get(i).getPion()==null) {
-						Setup.getBlurp().getPlayerList().get(i).setPion(microbe(Setup.getBlurp().getPlayerList().get(i)));
-					}
-				}
-				for (int i = 0; i < Setup.getGrounch().size(); i++) {
-
-					if(Setup.getGrounch().getPlayerList().get(i).getPion()==null) {
-						Setup.getGrounch().getPlayerList().get(i).setPion(microbe(Setup.getGrounch().getPlayerList().get(i)));
-					}
-				}
-				for (int i = 0; i < Setup.getKrok().size(); i++) {
-
-					if(Setup.getKrok().getPlayerList().get(i).getPion()==null) {
-						Setup.getKrok().getPlayerList().get(i).setPion(microbe(Setup.getKrok().getPlayerList().get(i)));
-						System.out.println("Create");
-					}
-					System.out.println("FailCreate");
-				}
-			}
-			}
-			
-		});*/
 	}
 
 	private void board() {
@@ -103,20 +75,42 @@ public class Display extends Application{
         board.setCenterX(Configuration.WIDTH/2);
         board.setCenterY(Configuration.HEIGHT/2);
         board.setRadius(Configuration.HEIGHT/2-10);
-        board.setFill(Color.BLACK);
-        board.setStroke(Color.RED);
-        board.setStrokeWidth(1);	
-        
-        /*TranslateTransition translateTransition = new TranslateTransition(); 
-        translateTransition.setDuration(Duration.millis(1000)); 
-        
-        translateTransition.setNode(board);  
-        translateTransition.setByX(500); 
-        translateTransition.setCycleCount(50); 
-        translateTransition.setAutoReverse(false);  
-        translateTransition.play(); */
+        board.setFill(Color.GRAY);
+        board.setStroke(Color.WHITE);
+        board.setStrokeWidth(0);	
         
         root.getChildren().add(board);
+		
+	}
+	
+	private void scoreTable() {
+
+        Rectangle sideBar = new Rectangle();
+
+        sideBar.setX(0);
+        sideBar.setY(0);
+        sideBar.setWidth((Configuration.WIDTH-Configuration.HEIGHT)/2);
+        sideBar.setHeight(Configuration.HEIGHT);
+        sideBar.setArcWidth(0);
+        sideBar.setArcHeight(0);
+        sideBar.setFill(Color.DARKGRAY);
+        sideBar.setStroke(Color.WHITE);
+        sideBar.setStrokeWidth(0);	
+        
+        root.getChildren().add(sideBar);
+        Rectangle sideBar1 = new Rectangle();
+
+        sideBar1.setX(Configuration.WIDTH-(Configuration.WIDTH-Configuration.HEIGHT)/2);
+        sideBar1.setY(0);
+        sideBar1.setWidth((Configuration.WIDTH-Configuration.HEIGHT)/2);
+        sideBar1.setHeight(Configuration.HEIGHT);
+        sideBar1.setArcWidth(0);
+        sideBar1.setArcHeight(0);
+        sideBar1.setFill(Color.DARKGRAY);
+        sideBar1.setStroke(Color.WHITE);
+        sideBar1.setStrokeWidth(0);	
+        
+        root.getChildren().add(sideBar1);
 		
 	}
 	public static void microbe( Player player) {
@@ -145,6 +139,38 @@ public class Display extends Application{
 	        pion.setStrokeWidth(0);	
 	        root.getChildren().add(pion);
 	        player.setPion(pion);
+		}
+	});
+        
+	}
+	
+	public static void score(Player player) {
+		Platform.runLater(new Runnable() {
+
+		@Override
+		public void run() {
+			Text text = new Text();
+			text.setFont(new Font(20));
+			text.setWrappingWidth((Configuration.WIDTH-Configuration.HEIGHT)/2-40);
+			//text.setTextAlignment(TextAlignment.JUSTIFY);
+			text.setText(player.getPseudo()+"\t"+player.getScore());
+			text.setX(Configuration.XSCORE);
+			text.setY(Configuration.YSCORE+(Setup.getScoreTable().size()-1)*Configuration.LEADING);
+	        switch (player.getTeam().getColor()) {
+			case "red":
+		        text.setFill(Color.RED);
+				break;
+			case "yellow":
+		        text.setFill(Color.YELLOW);
+				break;
+			case "blue":
+		        text.setFill(Color.BLUE);
+				break;
+			default:
+				break;
+			}
+			root.getChildren().add(text);
+			player.setBox(text);
 		}
 	});
         

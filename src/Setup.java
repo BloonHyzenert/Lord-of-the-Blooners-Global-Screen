@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class Setup {
 	
@@ -8,6 +10,8 @@ public class Setup {
 	private static Team blurp = new Team("Blurp","blue"); 
 	
 	private static Team item = new Team("Item","white");
+	
+	private static List<Player> scoreTable = new ArrayList<Player>();
 
 	public Setup() {
 		krok.setStrong(blurp);
@@ -18,7 +22,7 @@ public class Setup {
 	public void init() {
 		Configuration.MAXMAPSIZE = (krok.size()+grounch.size()+blurp.size())*FACTEUR_TAILLE;
 		Configuration.MAPSIZE = Configuration.MAXMAPSIZE;
-		
+		//Display.printScore();
 	}
 	
 	public static void addPlayer(Player player) {
@@ -33,6 +37,7 @@ public class Setup {
 			add=blurp;
 		}
 		add.addPlayer(player);
+		scoreTable.add(player);
 	}
 
 	public static Team getKrok() {
@@ -50,6 +55,11 @@ public class Setup {
 	public static Team getItem() {
 		return item;
 	}
+
+	public static List<Player> getScoreTable() {
+		return scoreTable;
+	}
+
 	
 	
 }

@@ -1,8 +1,9 @@
 import java.net.Socket;
 
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
-public class Player {
+public class Player implements Comparable<Player> {
 
 	private int playerID;
 	
@@ -14,27 +15,42 @@ public class Player {
 	
 	private Circle pion;
 	
+	private Text box;
+	
+	private int score;
+
 	private ClientRequest dialog;
 	
 	private Position position;
+	
+	public Text getBox() {
+		return box;
+	}
+
+	public void setBox(Text box) {
+		this.box = box;
+	}
+
 	
 	public Player(ClientRequest dialog,String tPseudo) {
 		setDialog(dialog);
 		position = new Position(Configuration.WIDTH/2,Configuration.HEIGHT/2);
 		setPseudo(tPseudo);
+		setScore(0);
 		playerID=++nbPlayer;
     	Setup.addPlayer(this);
     	Display.microbe(this);
+    	Display.score(this);
 		System.out.println("Le joueur n°"+getPlayerID()+" : "+getPseudo()+" a rejoint la partie");
 		
 	}
 
-	public Circle getPion() {
-		return pion;
-	}
-
 	public void setPion(Circle pion) {
 		this.pion = pion;
+	}
+
+	public Circle getPion() {
+		return pion;
 	}
 
 	public void move(int dx, int dy) {
@@ -107,4 +123,20 @@ public class Player {
 	public String getPseudo() {
 		return pseudo;
 	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	@Override
+	public int compareTo(Player o) {
+		if(score>o.getScore())
+			return 1;
+		return -1;
+	}
+	
 }

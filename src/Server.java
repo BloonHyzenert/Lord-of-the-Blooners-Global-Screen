@@ -1,7 +1,10 @@
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class Server {
 	
@@ -11,28 +14,30 @@ public class Server {
 	
 	private static ServerSocket server;
 	
-	private String host = "192.168.1.2";
+	private ArrayList<InetAddress> hostAddress = new ArrayList<InetAddress>();
 	
 	public void create() {
 		// Création socket du serveur
 		try {
-			server = new ServerSocket(PORT,100);
-			System.err.println("Lancement : Port " + PORT);
-		} catch (IOException e) {			
-			// Problème port
-			System.err.println("Le port " + PORT + " est déjà utilisé ! ");
+			Enumeration e = NetworkInterface.getNetworkInterfaces();
+		while(e.hasMoreElements())
+		{
+		    NetworkInterface n = (NetworkInterface) e.nextElement();
+		    Enumeration ee = n.getInetAddresses();
+		    while (ee.hasMoreElements())
+		    {
+		        InetAddress i = (InetAddress) ee.nextElement();
+		        	hostAddress.add(i);
+		       // System.out.println(i.getHostAddress());
+		    }
 		}
-	}
-	
-	public void create(String tHost, int tPort) {
-		// Création socket du serveur paramétré
-		PORT = tPort;
-		host = tHost;
-		try {
-			server = new ServerSocket(PORT);
+		
+			InetAddress addr = InetAddress.getLocalHost();
+			server = new ServerSocket(PORT,100);
+			System.out.println("Launching : Port " + PORT +" IP " + hostAddress.get(1).getHostAddress());
 		} catch (IOException e) {			
 			// Problème port
-			System.err.println("Le port " + PORT + " est déjà utilisé ! ");
+			System.err.println("Launching Error");
 		}
 	}
 	

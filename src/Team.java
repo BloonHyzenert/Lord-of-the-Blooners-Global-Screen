@@ -42,6 +42,8 @@ public class Team {
 	public void removePlayer(Player player) {
 		System.out.println("Le joueur n°"+player.getPlayerID()+" : "+player.getPseudo()+" a quitte la partie");
 		player.getPion().setVisible(false);
+		player.getBox().setVisible(false);
+		Setup.getScoreTable().remove(player);
 		this.playerList.remove(player);
 	}
 	
