@@ -51,9 +51,21 @@ public class Display extends Application{
 		getScreenSize();
         board();
         scoreTable();
+        host();
         
         primaryStage.show();
         
+	}
+
+	private void host() {
+		Text text = new Text();
+		text.setFill(Color.WHITE);
+		text.setFont(new Font(20));
+		text.setText("LocalIP "+Configuration.host);
+		text.setX((Configuration.width-Configuration.height)/2+10);
+		text.setY(Configuration.height-10);
+		root.getChildren().add(text);
+		
 	}
 
 	private void getScreenSize() {

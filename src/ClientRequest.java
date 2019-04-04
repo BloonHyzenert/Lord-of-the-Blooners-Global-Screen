@@ -15,15 +15,15 @@ public class ClientRequest implements Runnable {
 
 	public ClientRequest(Socket client) throws IOException {
 		sock = client;
-		sock.setSoTimeout(1000);
 		writer = new PrintWriter(sock.getOutputStream());
 		reader = new BufferedInputStream(sock.getInputStream());
 	}
 
 	@Override
 	public void run() {
-		while (!sock.isClosed()) {
+		while (!sock.isClosed() && !Configuration.end && !closeConnexion) {
 			try {
+				sock.setSoTimeout(1000);
 				String response = read();
 				String tabInfos[] = response.split(",");
 				if (response != "") {
@@ -39,17 +39,23 @@ public class ClientRequest implements Runnable {
 					writer.flush();
 				} else
 					closeConnexion = true;
-				if (closeConnexion || Configuration.end) {
-					sock.close();
-					break;
-				}
+
 			} catch (SocketException e) {
 				closeConnexion = true;
 			} catch (IOException e) {
-				closeConnexion=true;
+				closeConnexion = true;
 			}
 		}
+		try
+
+		{
+			sock.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		closeSocket();
+
 	}
 
 	private void closeSocket() {

@@ -12,4 +12,5 @@ public class Configuration {
 	public static int pionSize = 20;
 	public static boolean end = false;
 	public static boolean start = false;
+	public static String host;
 }

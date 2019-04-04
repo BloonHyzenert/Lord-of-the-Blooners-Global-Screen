@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
@@ -19,7 +20,7 @@ public class Server {
 		create();
 		open();
 	}
-
+	
 	public void create() {
 		try {
 			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
@@ -29,11 +30,13 @@ public class Server {
 				while (ee.hasMoreElements()) {
 					InetAddress i = (InetAddress) ee.nextElement();
 					hostAddress.add(i);
-					// System.out.println(i.getHostAddress());
+					if(i instanceof Inet4Address && !i.isLoopbackAddress()  && !i.isLinkLocalAddress()) {
+						Configuration.host = i.getHostAddress();
+					}
 				}
 			}
 			server = new ServerSocket(PORT, 100);
-			System.out.println("Launching : Port " + PORT + " IP " + hostAddress.get(1).getHostAddress());
+			System.out.println("Launching : Port " + PORT + " IP " + Configuration.host + " Nom "+InetAddress.getLocalHost().getHostName());
 		} catch (IOException e) {
 			System.err.println("Launching Error");
 		}
@@ -50,6 +53,8 @@ public class Server {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+						if(Configuration.end)
+							break;
 					}
 					try {
 						TimeUnit.SECONDS.wait(10);
