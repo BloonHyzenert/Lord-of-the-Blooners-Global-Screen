@@ -1,22 +1,30 @@
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
 
 	private String name;
-	
+	private String color;
 	private List<Player> playerList;
-	
 	private Team strong;
-	
-	public Team(String tname) {
-		name=tname;
+
+	public Team(String tname, String tcolor) {
+		name = tname;
+		color = tcolor;
 		playerList = new ArrayList<Player>(0);
 	}
-	
+
+	public void addPlayer(Player player) {
+		player.setTeam(this);
+		this.playerList.add(player);
+	}
+
+	public void removePlayer(Player player) {
+		this.playerList.remove(player);
+	}
+
 	public int size() {
-		 return playerList.size();
+		return playerList.size();
 	}
 
 	public String getName() {
@@ -27,17 +35,6 @@ public class Team {
 		return playerList;
 	}
 
-	public void addPlayer(Player player) {
-		player.setTeam(this);
-		this.playerList.add(player);
-	}
-	
-	public void removePlayer(Player player) {
-		System.out.println("Le joueur n°"+player.getPlayerID()+" : "+player.getPseudo()+" a quitte la partie");
-		this.playerList.remove(player);
-	}
-	
-
 	public Team getStrong() {
 		return strong;
 	}
@@ -45,4 +42,9 @@ public class Team {
 	public void setStrong(Team strong) {
 		this.strong = strong;
 	}
+
+	public String getColor() {
+		return color;
+	}
+
 }
