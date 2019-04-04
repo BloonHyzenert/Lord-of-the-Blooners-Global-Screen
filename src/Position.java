@@ -3,18 +3,18 @@ public class Position {
 
 	private int x;
 	private int y;
-	
+
 	public Position() {
-		setX(0);
-		setY(0);
+		setX((int) Configuration.width / 2);
+		setY((int) Configuration.height / 2);
 	}
-	
+
 	public Position(int tx, int ty) {
 		setX(tx);
 		setY(ty);
 	}
-	
-	public void movePosition(int dx, int dy) {
+
+	public void setPosition(int dx, int dy) {
 		setX(dx);
 		setY(dy);
 	}
@@ -34,8 +34,8 @@ public class Position {
 	public void setX(int x) {
 		this.x = x;
 	}
-	
+
 	public String toString() {
-		return x+","+y;
+		return x + "," + y;
 	}
 }

@@ -1,19 +1,11 @@
-import java.net.Socket;
+import javafx.application.Application;
 
 public class Launcher {
 
 	public static void main(String[] args) {
-		
-		Setup game = new Setup();
-		game.init();
-		
-		Server server = new Server();
-		
-		server.create();
-		
-		server.open();
-		
-
+		new Setup();
+		new Thread(new SortList()).start();
+		new Server();
+		Application.launch(Display.class, args);
 	}
-
 }
