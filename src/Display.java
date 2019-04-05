@@ -1,5 +1,7 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
+
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -55,6 +57,20 @@ public class Display extends Application{
         
         primaryStage.show();
         
+        AnimationTimer boucle = new AnimationTimer() {
+			
+			@Override
+			public void handle(long now) {
+				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
+					Player p = Setup.getPlayerList().get(i);
+					p.getPion().setCenterX(p.getPosition().getX()*(Configuration.boardRadius-Configuration.pionRadius)/(double)Configuration.mapRadius+Configuration.width/2);
+					p.getPion().setCenterY(p.getPosition().getY()*(Configuration.boardRadius-Configuration.pionRadius)/(double)Configuration.mapRadius+Configuration.height/2);
+					p.getPion().setRadius(Configuration.pionRadius);
+					System.out.println("Pos Ecran "+p.getPion().getCenterX()+" "+p.getPion().getCenterY()+" Pos Jeu "+p.getPosition().getX()+" "+p.getPosition().getY());
+				}		
+			}
+		};
+		boucle.start();
 	}
 
 	private void host() {
@@ -80,6 +96,7 @@ public class Display extends Application{
         board.setCenterX(Configuration.width/2);
         board.setCenterY(Configuration.height/2);
         board.setRadius(Configuration.height/2-10);
+        Configuration.boardRadius=Configuration.height/2-10;
         board.setFill(Color.GRAY);
         board.setStroke(Color.WHITE);
         board.setStrokeWidth(0);	      
@@ -111,14 +128,14 @@ public class Display extends Application{
         sideBar1.setStrokeWidth(0);	    
         root.getChildren().add(sideBar1);	
 	}
-	public static void microbe( Player player) {
+	public static void addPion( Player player) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 		        Circle pion = new Circle();
-		        pion.setCenterX(player.getPosition().getX());
-		        pion.setCenterY(player.getPosition().getY());
-		        pion.setRadius(Configuration.pionSize);
+		        pion.setCenterX((int) Configuration.width / 2);
+		        pion.setCenterY((int) Configuration.height / 2);
+		        pion.setRadius(Configuration.pionRadius);
 		        switch (player.getTeam().getColor()) {
 				case "red":
 			        pion.setFill(Color.RED);
@@ -140,17 +157,15 @@ public class Display extends Application{
 		});     
 	}
 	
-	public static void score(Player player) {
+	public static void addText(Player player) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
 				Text text = new Text();
 				text.setFont(new Font(20));
-				text.setWrappingWidth((Configuration.width-Configuration.height)/2-40);
-				//text.setTextAlignment(TextAlignment.JUSTIFY);
-				text.setText(player.getPseudo()+"\t"+player.getScore());
-				text.setX(Configuration.xscore);
-				text.setY(Configuration.yscore+(Setup.getScoreTable().size()-1)*Configuration.leading);
+				text.setText(player.getPseudo()+"");
+				text.setX(Configuration.xtext);
+				text.setY(Configuration.ytext+(Setup.getPlayerList().size()-1)*Configuration.leading);
 		        switch (player.getTeam().getColor()) {
 				case "red":
 			        text.setFill(Color.RED);
@@ -165,7 +180,28 @@ public class Display extends Application{
 					break;
 				}
 				root.getChildren().add(text);
-				player.setBox(text);
+				player.setNameBox(text);
+				
+				Text text1 = new Text();
+				text1.setFont(new Font(20));
+				text1.setText(""+player.getScore());
+				text1.setX(Configuration.xtext+150);
+				text1.setY(Configuration.ytext+(Setup.getPlayerList().size()-1)*Configuration.leading);
+		        switch (player.getTeam().getColor()) {
+				case "red":
+			        text1.setFill(Color.RED);
+					break;
+				case "yellow":
+			        text1.setFill(Color.YELLOW);
+					break;
+				case "blue":
+			        text1.setFill(Color.BLUE);
+					break;
+				default:
+					break;
+				}
+				root.getChildren().add(text1);
+				player.setScoreBox(text1);
 			}
 		});  
 	}

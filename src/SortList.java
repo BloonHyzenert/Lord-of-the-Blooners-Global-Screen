@@ -5,14 +5,18 @@ public class SortList implements Runnable {
 
 	@Override
 	public void run() {
-		while(!Configuration.end) {
+		while (!Configuration.end) {
 
-			Collections.sort(Setup.getScoreTable(), Collections.reverseOrder());
-			for (int i = 0; i < Setup.getScoreTable().size(); i++) {
-        		Setup.getScoreTable().get(i).setScore(Setup.getScoreTable().get(i).getScore()+1);
-    			Setup.getScoreTable().get(i).getBox().setText(Setup.getScoreTable().get(i).getPseudo()+"\t"+Setup.getScoreTable().get(i).getScore());
-				Setup.getScoreTable().get(i).getBox().setY(Configuration.yscore+i*Configuration.leading);
+			Collections.sort(Setup.getPlayerList(), Collections.reverseOrder());
+			for (int i = 0; i < Setup.getPlayerList().size(); i++) {
+				Player p = Setup.getPlayerList().get(i);
+				p.setScore((int) (Math.random() * 50 - 25));
+				p.getNameBox().setTranslateY(Configuration.ytext + i * Configuration.leading);
+				p.getScoreBox().setText("" + p.getScore());
+				p.getScoreBox().setTranslateY(Configuration.ytext + i * Configuration.leading);
 			}
+
+			
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
@@ -20,7 +24,7 @@ public class SortList implements Runnable {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 
 }

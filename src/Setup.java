@@ -7,14 +7,14 @@ public class Setup {
 	private static Team grounch = new Team("Grounch", "red");
 	private static Team blurp = new Team("Blurp", "blue");
 	private static Team item = new Team("Item", "white");
-	private static List<Player> scoreTable = new ArrayList<Player>();
+	private static List<Player> playerList = new ArrayList<Player>();
 
 	public static void init() {
 		krok.setStrong(blurp);
 		grounch.setStrong(krok);
-		blurp.setStrong(grounch);
-		Configuration.maxMapSize = (krok.size() + grounch.size() + blurp.size()) * Configuration.microbeSize;
-		Configuration.mapSize = Configuration.maxMapSize;
+		blurp.setStrong(grounch);Configuration.maxMapRadius = (Setup.getPlayerList().size()) * Configuration.microbeRadius+1;
+		Configuration.mapRadius = Configuration.maxMapRadius;
+		Configuration.pionRadius = Configuration.boardRadius*Configuration.microbeRadius/(2*Configuration.maxMapRadius);
 		Configuration.start=true;
 	}
 
@@ -30,14 +30,15 @@ public class Setup {
 			add = blurp;
 		}
 		add.addPlayer(player);
-		scoreTable.add(player);
+		playerList.add(player);
 	}
 
 	public static void removePlayer(Player player) {
 		System.out.println("Le joueur n°" + player.getPlayerID() + " : " + player.getPseudo() + " a quitte la partie");
 		player.getPion().setVisible(false);
-		player.getBox().setVisible(false);
-		Setup.getScoreTable().remove(player);
+		player.getNameBox().setVisible(false);
+		player.getScoreBox().setVisible(false);
+		Setup.getPlayerList().remove(player);
 		player.getTeam().removePlayer(player);
 	}
 
@@ -57,8 +58,8 @@ public class Setup {
 		return item;
 	}
 
-	public static List<Player> getScoreTable() {
-		return scoreTable;
+	public static List<Player> getPlayerList() {
+		return playerList;
 	}
 
 }
