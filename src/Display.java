@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.InputStream;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -7,6 +8,8 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -54,6 +57,7 @@ public class Display extends Application{
         board();
         scoreTable();
         host();
+        strong();
         
         primaryStage.show();
         
@@ -63,14 +67,23 @@ public class Display extends Application{
 			public void handle(long now) {
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
-					p.getPion().setCenterX(p.getPosition().getX()*(Configuration.boardRadius-Configuration.pionRadius)/(double)Configuration.mapRadius+Configuration.width/2);
-					p.getPion().setCenterY(p.getPosition().getY()*(Configuration.boardRadius-Configuration.pionRadius)/(double)Configuration.mapRadius+Configuration.height/2);
+					p.getPion().setCenterX(p.getPosition().getX()*(Configuration.boardRadius)/(double)Configuration.mapRadius+Configuration.width/2);
+					p.getPion().setCenterY(p.getPosition().getY()*(Configuration.boardRadius)/(double)Configuration.mapRadius+Configuration.height/2);
 					p.getPion().setRadius(Configuration.pionRadius);
-					System.out.println("Pos Ecran "+p.getPion().getCenterX()+" "+p.getPion().getCenterY()+" Pos Jeu "+p.getPosition().getX()+" "+p.getPosition().getY());
 				}		
 			}
 		};
 		boucle.start();
+	}
+
+	private void strong() {
+		Class<?> clazz = this.getClass();
+		InputStream input = clazz.getResourceAsStream("Image/strongCircle.png");
+		Image image = new Image(input,Configuration.height/7,Configuration.height/7,false,true);
+		ImageView strong = new ImageView(image);
+		strong.setX(Configuration.width-Configuration.tableWidth-Configuration.height/7-20);
+		strong.setY(20);
+		root.getChildren().add(strong);
 	}
 
 	private void host() {
@@ -97,6 +110,7 @@ public class Display extends Application{
         board.setCenterY(Configuration.height/2);
         board.setRadius(Configuration.height/2-10);
         Configuration.boardRadius=Configuration.height/2-10;
+        Configuration.pionRadius = (int)(Configuration.boardRadius*Configuration.microbeRadius/(double)Configuration.maxMapRadius);
         board.setFill(Color.GRAY);
         board.setStroke(Color.WHITE);
         board.setStrokeWidth(0);	      
@@ -104,10 +118,12 @@ public class Display extends Application{
 	}
 	
 	private void scoreTable() {
+		Configuration.tableWidth=(Configuration.width-Configuration.height)/2;
+		
         Rectangle sideBar = new Rectangle();
         sideBar.setX(0);
         sideBar.setY(0);
-        sideBar.setWidth((Configuration.width-Configuration.height)/2);
+        sideBar.setWidth(Configuration.tableWidth);
         sideBar.setHeight(Configuration.height);
         sideBar.setArcWidth(0);
         sideBar.setArcHeight(0);
@@ -117,9 +133,9 @@ public class Display extends Application{
         
         root.getChildren().add(sideBar);
         Rectangle sideBar1 = new Rectangle();
-        sideBar1.setX(Configuration.width-(Configuration.width-Configuration.height)/2);
+        sideBar1.setX(Configuration.width-Configuration.tableWidth);
         sideBar1.setY(0);
-        sideBar1.setWidth((Configuration.width-Configuration.height)/2);
+        sideBar1.setWidth(Configuration.tableWidth);
         sideBar1.setHeight(Configuration.height);
         sideBar1.setArcWidth(0);
         sideBar1.setArcHeight(0);

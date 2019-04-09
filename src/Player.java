@@ -34,15 +34,13 @@ public class Player implements Comparable<Player> {
 	public void setStartPosition() {
 		switch (team.getName()) {
 		case "Krok":
-			setPosition(new Position(0, -Configuration.maxMapRadius / 2));
+			setPosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Blurp":
-			setPosition(new Position((int) (-Configuration.maxMapRadius * Math.sqrt(2) / 2),
-					(int) (Configuration.maxMapRadius * Math.sqrt(3) / 2)));
+			setPosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Grounch":
-			setPosition(new Position((int) (Configuration.maxMapRadius * Math.sqrt(2) / 2),
-					(int) (Configuration.maxMapRadius * Math.sqrt(3) / 2)));
+			setPosition(0,Configuration.mapRadius/2.0);
 			break;
 		case "Item":
 			setPosition(new Position(-Configuration.maxMapRadius / 2, -Configuration.maxMapRadius / 2));
@@ -79,6 +77,15 @@ public class Player implements Comparable<Player> {
 	public void setPosition(Position position) {
 		this.position = position;
 	}
+
+	public void setPosition(int x, int y) {
+		this.position.setPosition(x, y);
+	}
+	
+	private void setPosition(double d, double e) {
+		this.position.setPosition((int)d, (int)e);
+	}
+
 
 	public Team getTeam() {
 		return team;

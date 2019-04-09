@@ -12,10 +12,13 @@ public class Setup {
 	public static void init() {
 		krok.setStrong(blurp);
 		grounch.setStrong(krok);
-		blurp.setStrong(grounch);Configuration.maxMapRadius = (Setup.getPlayerList().size()) * Configuration.microbeRadius+1;
+		blurp.setStrong(grounch);
+		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 3 * Configuration.microbeRadius + 1;
 		Configuration.mapRadius = Configuration.maxMapRadius;
-		Configuration.pionRadius = Configuration.boardRadius*Configuration.microbeRadius/(2*Configuration.maxMapRadius);
-		Configuration.start=true;
+		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
+				/ (double) Configuration.maxMapRadius);
+		setStartPositions();
+		Configuration.start = true;
 	}
 
 	public static void addPlayer(Player player) {
@@ -40,6 +43,12 @@ public class Setup {
 		player.getScoreBox().setVisible(false);
 		Setup.getPlayerList().remove(player);
 		player.getTeam().removePlayer(player);
+	}
+
+	private static void setStartPositions() {
+		for (int i = 0; i < playerList.size(); i++) {
+			playerList.get(i).setStartPosition();
+		}
 	}
 
 	public static Team getKrok() {
