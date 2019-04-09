@@ -1,5 +1,9 @@
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 
 public class Setup {
 
@@ -8,11 +12,27 @@ public class Setup {
 	private static Team blurp = new Team("Blurp", "blue");
 	private static Team item = new Team("Item", "white");
 	private static List<Player> playerList = new ArrayList<Player>();
+	public static AudioClip BlurpSong;
+	public static AudioClip GrounchSong;
+	public static AudioClip KrokSong;
+	
+	public Setup() {
 
-	public static void init() {
 		krok.setStrong(blurp);
 		grounch.setStrong(krok);
 		blurp.setStrong(grounch);
+        String bip = "src/music/BlurpSong.mp3";
+        Media hit = new Media(Paths.get(bip).toUri().toString());
+        BlurpSong = new AudioClip(hit.getSource());
+        String bip1 = "src/music/GrounchSong.mp3";
+        Media hit1 = new Media(Paths.get(bip1).toUri().toString());
+        GrounchSong = new AudioClip(hit1.getSource());
+        String bip11 = "src/music/KrokSong.mp3";
+        Media hit11 = new Media(Paths.get(bip11).toUri().toString());
+        KrokSong = new AudioClip(hit11.getSource());
+	}
+
+	public static void init() {
 		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 3 * Configuration.microbeRadius + 1;
 		Configuration.mapRadius = Configuration.maxMapRadius;
 		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
