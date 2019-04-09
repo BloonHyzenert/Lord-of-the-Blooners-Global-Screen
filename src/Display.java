@@ -1,7 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.InputStream;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -66,7 +65,7 @@ public class Display extends Application {
 			Setup.KrokSong.play();
 			break;
 		case 1:
-			Setup.GrounchSong.play();
+			Setup.GrounchSong.play();;
 			break;
 		case 2:
 			Setup.BlurpSong.play();

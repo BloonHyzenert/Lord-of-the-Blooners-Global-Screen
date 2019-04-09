@@ -13,10 +13,12 @@ public class Player implements Comparable<Player> {
 	private int score;
 	private ClientRequest dialog;
 	private Position position;
+	private Position deltaPosition;
 
 	public Player(ClientRequest dialog, String tPseudo) {
 		setDialog(dialog);
 		position = new Position();
+		deltaPosition = new Position();
 		setPseudo(tPseudo);
 		setScore(0);
 		playerID = ++nbPlayer;
@@ -28,7 +30,7 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void move(int dx, int dy) {
-		position.setPosition(position.getX() + dx, position.getY() + dy);
+		deltaPosition.setPosition(dx, dy);
 	}
 
 	public void setStartPosition() {
@@ -134,6 +136,14 @@ public class Player implements Comparable<Player> {
 
 	public void setScoreBox(Text scoreBox) {
 		this.scoreBox = scoreBox;
+	}
+
+	public Position getDeltaPosition() {
+		return deltaPosition;
+	}
+
+	public void setDeltaPosition(Position deltaPosition) {
+		this.deltaPosition = deltaPosition;
 	}
 
 }
