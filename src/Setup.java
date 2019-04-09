@@ -19,6 +19,7 @@ public class Setup {
 				/ (double) Configuration.maxMapRadius);
 		setStartPositions();
 		Configuration.start = true;
+		
 	}
 
 	public static void addPlayer(Player player) {

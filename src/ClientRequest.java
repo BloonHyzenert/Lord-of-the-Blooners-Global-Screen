@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.TimeUnit;
 
 public class ClientRequest implements Runnable {
 
@@ -47,6 +48,13 @@ public class ClientRequest implements Runnable {
 					writer.flush();
 				} else
 					closeConnexion = true;
+				
+				try {
+					TimeUnit.MILLISECONDS.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					
+				}
 
 			} catch (SocketException e) {
 				closeConnexion = true;

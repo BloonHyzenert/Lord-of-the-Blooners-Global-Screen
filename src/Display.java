@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.InputStream;
+import java.nio.file.Paths;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -11,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -25,6 +28,7 @@ public class Display extends Application{
 
 	@Override
 	public void start(Stage stage) {
+		
 		primaryStage=stage;
 		
         primaryStage.setTitle("Lord of the Blooners");
@@ -58,7 +62,11 @@ public class Display extends Application{
         scoreTable();
         host();
         strong();
-        
+
+        String bip = "src/music/BlurpSong.mp3";
+        Media hit = new Media(Paths.get(bip).toUri().toString());
+        AudioClip mediaPlayer = new AudioClip(hit.getSource());
+        mediaPlayer.play();
         primaryStage.show();
         
         AnimationTimer boucle = new AnimationTimer() {

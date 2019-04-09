@@ -1,3 +1,4 @@
+
 import javafx.application.Application;
 
 public class Launcher {
@@ -7,5 +8,6 @@ public class Launcher {
 		new Thread(new SortList()).start();
 		new Server();
 		Application.launch(Display.class, args);
+		
 	}
 }
