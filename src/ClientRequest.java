@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.TimeUnit;
 
 public class ClientRequest implements Runnable {
 
@@ -25,20 +26,34 @@ public class ClientRequest implements Runnable {
 			try {
 				sock.setSoTimeout(1000);
 				String response = read();
-				String tabInfos[] = response.split(",");
+				//System.out.println("Response "+response);
 				if (response != "") {
-					if (Integer.parseInt(tabInfos[0]) == 0) {
+					String tabInfos[] = response.split(",");
+					switch (Integer.parseInt(tabInfos[0])) {
+					case 0:
 						player = new Player(this, tabInfos[1]);
-						toSend = player.getPlayerID() + "," + player.getPseudo() + "," + player.getTeam().getName()
+						toSend = "0,"+player.getPlayerID() + "," + player.getPseudo() + "," + player.getTeam().getName()
 								+ "," + player.getPosition().toString();
-					} else if (player.getPlayerID() == Integer.parseInt(tabInfos[0])) {
-						player.move(Integer.parseInt(tabInfos[1]), Integer.parseInt(tabInfos[2]));
-						toSend = player.getPlayerID() + "," + player.getPosition().toString();
+						break;
+					case 1:
+						player.move(Double.parseDouble(tabInfos[1]) * 3, Double.parseDouble(tabInfos[2]) * 3);
+						toSend = "1," + player.getPosition().toString() + "," + nextTo();
+
+					default:
+						break;
 					}
+					//System.out.println("Command "+toSend);
 					writer.write(toSend);
 					writer.flush();
 				} else
 					closeConnexion = true;
+				
+				try {
+					TimeUnit.MILLISECONDS.sleep(10);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					
+				}
 
 			} catch (SocketException e) {
 				closeConnexion = true;
@@ -56,6 +71,24 @@ public class ClientRequest implements Runnable {
 
 		closeSocket();
 
+	}
+
+	private String nextTo() {
+		String toSend = "";
+		int taille = 0;
+		for (int i = 0; i < Setup.getPlayerList().size(); i++) {
+			Player p = Setup.getPlayerList().get(i);
+			if (p.getPlayerID() != player.getPlayerID()
+					&& Math.abs(player.getPosition().getX() - p.getPosition().getX()) < Configuration.visionX
+							+ Configuration.microbeRadius
+					&& Math.abs(player.getPosition().getY() - p.getPosition().getY()) < Configuration.visionY
+							+ Configuration.microbeRadius) {
+				toSend += "," + p.getPlayerID() + "," + p.getPseudo() + "," + p.getTeam().getName() + ","
+						+ p.getPosition().toString();
+				taille++;
+			}
+		}
+		return taille + toSend;
 	}
 
 	private void closeSocket() {

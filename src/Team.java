@@ -19,8 +19,9 @@ public class Team {
 		this.playerList.add(player);
 	}
 
-	public void removePlayer(Player player) {
+	public Player removePlayer(Player player) {
 		this.playerList.remove(player);
+		return player;
 	}
 
 	public int size() {
