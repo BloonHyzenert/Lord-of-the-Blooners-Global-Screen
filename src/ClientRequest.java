@@ -26,7 +26,7 @@ public class ClientRequest implements Runnable {
 			try {
 				sock.setSoTimeout(1000);
 				String response = read();
-				System.out.println("Response "+response);
+				//System.out.println("Response "+response);
 				if (response != "") {
 					String tabInfos[] = response.split(",");
 					switch (Integer.parseInt(tabInfos[0])) {
@@ -36,14 +36,13 @@ public class ClientRequest implements Runnable {
 								+ "," + player.getPosition().toString();
 						break;
 					case 1:
-						player.move(Integer.parseInt(tabInfos[1]) * 3, Integer.parseInt(tabInfos[2]) * 3);
+						player.move(Double.parseDouble(tabInfos[1]) * 3, Double.parseDouble(tabInfos[2]) * 3);
 						toSend = "1," + player.getPosition().toString() + "," + nextTo();
 
 					default:
-						//closeConnexion=true;
 						break;
 					}
-					System.out.println("Command "+toSend);
+					//System.out.println("Command "+toSend);
 					writer.write(toSend);
 					writer.flush();
 				} else

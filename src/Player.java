@@ -29,7 +29,7 @@ public class Player implements Comparable<Player> {
 
 	}
 
-	public void move(int dx, int dy) {
+	public void move(double dx, double dy) {
 		deltaPosition.setPosition(dx, dy);
 	}
 
@@ -55,7 +55,7 @@ public class Player implements Comparable<Player> {
 
 	@Override
 	public int compareTo(Player o) {
-		if (score > o.getScore())
+		if (score >= o.getScore())
 			return 1;
 		return -1;
 	}
@@ -81,11 +81,11 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void setPosition(int x, int y) {
-		this.position.setPosition(x, y);
+		this.position.setPosition((double)x, (double) y);
 	}
 	
-	private void setPosition(double d, double e) {
-		this.position.setPosition((int)d, (int)e);
+	public void setPosition(double d, double e) {
+		this.position.setPosition(d, e);
 	}
 
 
@@ -144,6 +144,11 @@ public class Player implements Comparable<Player> {
 
 	public void setDeltaPosition(Position deltaPosition) {
 		this.deltaPosition = deltaPosition;
+	}
+
+	public void upScore() {
+		score+=1;
+		
 	}
 
 }
