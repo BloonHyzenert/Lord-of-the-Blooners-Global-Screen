@@ -8,48 +8,44 @@ public class Player implements Comparable<Player> {
 	private String pseudo;
 	private Team team;
 	private Circle pion;
-	private Text box;
+	private Text nameBox;
+	private Text scoreBox;
 	private int score;
 	private ClientRequest dialog;
 	private Position position;
+	private Position deltaPosition;
 
 	public Player(ClientRequest dialog, String tPseudo) {
 		setDialog(dialog);
-		position = new Position(Configuration.width / 2, Configuration.height / 2);
+		position = new Position();
+		deltaPosition = new Position();
 		setPseudo(tPseudo);
 		setScore(0);
 		playerID = ++nbPlayer;
 		Setup.addPlayer(this);
-		Display.microbe(this);
-		Display.score(this);
+		Display.addPion(this);
+		Display.addText(this);
 		System.out.println("Le joueur n°" + getPlayerID() + " : " + getPseudo() + " a rejoint la partie");
 
 	}
 
-	public void move(int dx, int dy) {
-		position.setPosition(position.getX() + dx, position.getY() + dy);
-		if (pion != null) {
-			pion.setCenterX(position.getX());
-			pion.setCenterY(position.getY());
-
-		}
+	public void move(double dx, double dy) {
+		deltaPosition.setPosition(dx, dy);
 	}
 
 	public void setStartPosition() {
 		switch (team.getName()) {
 		case "Krok":
-			setPosition(new Position(0, -Configuration.maxMapSize / 2));
+			setPosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Blurp":
-			setPosition(new Position((int) (-Configuration.maxMapSize * Math.sqrt(2) / 2),
-					(int) (Configuration.maxMapSize * Math.sqrt(3) / 2)));
+			setPosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Grounch":
-			setPosition(new Position((int) (Configuration.maxMapSize * Math.sqrt(2) / 2),
-					(int) (Configuration.maxMapSize * Math.sqrt(3) / 2)));
+			setPosition(0,Configuration.mapRadius/2.0);
 			break;
 		case "Item":
-			setPosition(new Position(-Configuration.maxMapSize / 2, -Configuration.maxMapSize / 2));
+			setPosition(new Position(-Configuration.maxMapRadius / 2, -Configuration.maxMapRadius / 2));
 			break;
 		default:
 			break;
@@ -59,7 +55,7 @@ public class Player implements Comparable<Player> {
 
 	@Override
 	public int compareTo(Player o) {
-		if (score > o.getScore())
+		if (score >= o.getScore())
 			return 1;
 		return -1;
 	}
@@ -82,11 +78,16 @@ public class Player implements Comparable<Player> {
 
 	public void setPosition(Position position) {
 		this.position = position;
-		if (pion != null) {
-			pion.setTranslateX(position.getX());
-			pion.setTranslateY(position.getY());
-		}
 	}
+
+	public void setPosition(int x, int y) {
+		this.position.setPosition((double)x, (double) y);
+	}
+	
+	public void setPosition(double d, double e) {
+		this.position.setPosition(d, e);
+	}
+
 
 	public Team getTeam() {
 		return team;
@@ -113,12 +114,12 @@ public class Player implements Comparable<Player> {
 		this.score = score;
 	}
 
-	public Text getBox() {
-		return box;
+	public Text getNameBox() {
+		return nameBox;
 	}
 
-	public void setBox(Text box) {
-		this.box = box;
+	public void setNameBox(Text box) {
+		this.nameBox = box;
 	}
 
 	public void setPion(Circle pion) {
@@ -127,6 +128,27 @@ public class Player implements Comparable<Player> {
 
 	public Circle getPion() {
 		return pion;
+	}
+
+	public Text getScoreBox() {
+		return scoreBox;
+	}
+
+	public void setScoreBox(Text scoreBox) {
+		this.scoreBox = scoreBox;
+	}
+
+	public Position getDeltaPosition() {
+		return deltaPosition;
+	}
+
+	public void setDeltaPosition(Position deltaPosition) {
+		this.deltaPosition = deltaPosition;
+	}
+
+	public void upScore() {
+		score+=1;
+		
 	}
 
 }

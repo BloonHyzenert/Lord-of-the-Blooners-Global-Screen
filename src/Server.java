@@ -6,7 +6,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.concurrent.TimeUnit;
 
 public class Server {
 
@@ -20,7 +19,7 @@ public class Server {
 		create();
 		open();
 	}
-	
+
 	public void create() {
 		try {
 			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
@@ -30,13 +29,14 @@ public class Server {
 				while (ee.hasMoreElements()) {
 					InetAddress i = (InetAddress) ee.nextElement();
 					hostAddress.add(i);
-					if(i instanceof Inet4Address && !i.isLoopbackAddress()  && !i.isLinkLocalAddress()) {
+					if (i instanceof Inet4Address && !i.isLoopbackAddress() && !i.isLinkLocalAddress()) {
 						Configuration.host = i.getHostAddress();
 					}
 				}
 			}
-			server = new ServerSocket(PORT, 100);
-			System.out.println("Launching : Port " + PORT + " IP " + Configuration.host + " Nom "+InetAddress.getLocalHost().getHostName());
+			server = new ServerSocket(PORT, 99);
+			System.out.println("Launching : Port " + PORT + " IP " + Configuration.host + " Nom "
+					+ InetAddress.getLocalHost().getHostName());
 		} catch (IOException e) {
 			System.err.println("Launching Error");
 		}
@@ -47,21 +47,19 @@ public class Server {
 			public void run() {
 				while (!Configuration.end) {
 					while (!Configuration.start) {
-						try {
-							Socket client = server.accept();
-							new Thread(new ClientRequest(client)).start();
-						} catch (IOException e) {
-							e.printStackTrace();
+						if (Setup.getPlayerList().size() < 99) {
+							try {
+								Socket client = server.accept();
+								new Thread(new ClientRequest(client)).start();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 						}
-						if(Configuration.end)
+						if (Configuration.end)
 							break;
 					}
-					try {
-						TimeUnit.SECONDS.wait(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 				}
+				System.out.println("end");
 				try {
 					server.close();
 				} catch (IOException e) {
