@@ -55,7 +55,7 @@ public class Player implements Comparable<Player> {
 
 	@Override
 	public int compareTo(Player o) {
-		if (score > o.getScore())
+		if (score >= o.getScore())
 			return 1;
 		return -1;
 	}
@@ -144,6 +144,11 @@ public class Player implements Comparable<Player> {
 
 	public void setDeltaPosition(Position deltaPosition) {
 		this.deltaPosition = deltaPosition;
+	}
+
+	public void upScore() {
+		score+=1;
+		
 	}
 
 }

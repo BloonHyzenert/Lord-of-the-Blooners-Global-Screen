@@ -166,28 +166,34 @@ public class Display extends Application {
 			@Override
 			public void run() {
 				Circle pion = new Circle();
+				player.setPion(pion);
 				pion.setCenterX((int) Configuration.width / 2);
 				pion.setCenterY((int) Configuration.height / 2);
 				pion.setRadius(Configuration.pionRadius);
-				switch (player.getTeam().getColor()) {
-				case "red":
-					pion.setFill(Color.RED);
-					break;
-				case "yellow":
-					pion.setFill(Color.YELLOW);
-					break;
-				case "blue":
-					pion.setFill(Color.BLUE);
-					break;
-				default:
-					break;
-				}
+				colorPion(player);
 				pion.setStroke(Color.BLACK);
 				pion.setStrokeWidth(0);
 				root.getChildren().add(pion);
-				player.setPion(pion);
 			}
 		});
+	}
+
+	protected static void colorPion(Player player) {
+
+		Circle pion=player.getPion();
+		switch (player.getTeam().getColor()) {
+		case "red":
+			pion.setFill(Color.RED);
+			break;
+		case "yellow":
+			pion.setFill(Color.YELLOW);
+			break;
+		case "blue":
+			pion.setFill(Color.BLUE);
+			break;
+		default:
+			break;
+		}		
 	}
 
 	public static void addText(Player player) {
@@ -195,48 +201,64 @@ public class Display extends Application {
 			@Override
 			public void run() {
 				Text text = new Text();
+				player.setNameBox(text);
 				text.setFont(new Font(20));
 				text.setText(player.getPseudo() + "");
 				text.setX(Configuration.xtext);
 				text.setY(Configuration.ytext + (Setup.getPlayerList().size() - 1) * Configuration.leading);
-				switch (player.getTeam().getColor()) {
-				case "red":
-					text.setFill(Color.RED);
-					break;
-				case "yellow":
-					text.setFill(Color.YELLOW);
-					break;
-				case "blue":
-					text.setFill(Color.BLUE);
-					break;
-				default:
-					break;
-				}
+				colorName(player);
 				root.getChildren().add(text);
-				player.setNameBox(text);
 
 				Text text1 = new Text();
+				player.setScoreBox(text1);
 				text1.setFont(new Font(20));
 				text1.setText("" + player.getScore());
 				text1.setX(Configuration.xtext + 150);
 				text1.setY(Configuration.ytext + (Setup.getPlayerList().size() - 1) * Configuration.leading);
-				switch (player.getTeam().getColor()) {
-				case "red":
-					text1.setFill(Color.RED);
-					break;
-				case "yellow":
-					text1.setFill(Color.YELLOW);
-					break;
-				case "blue":
-					text1.setFill(Color.BLUE);
-					break;
-				default:
-					break;
-				}
+				colorScore(player);
 				root.getChildren().add(text1);
-				player.setScoreBox(text1);
 			}
 		});
+	}
+
+	protected static void colorName(Player player) {
+		
+		Text text = player.getNameBox();
+
+		switch (player.getTeam().getColor()) {
+		case "red":
+			text.setFill(Color.RED);
+			break;
+		case "yellow":
+			text.setFill(Color.YELLOW);
+			break;
+		case "blue":
+			text.setFill(Color.BLUE);
+			break;
+		default:
+			break;
+		}
+		
+	}
+
+	protected static void colorScore(Player player) {
+		
+		Text text = player.getScoreBox();
+
+		switch (player.getTeam().getColor()) {
+		case "red":
+			text.setFill(Color.RED);
+			break;
+		case "yellow":
+			text.setFill(Color.YELLOW);
+			break;
+		case "blue":
+			text.setFill(Color.BLUE);
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 }
