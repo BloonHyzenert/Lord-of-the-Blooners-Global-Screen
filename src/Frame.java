@@ -10,6 +10,7 @@ public class Frame implements Runnable {
 			for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 				Player p = Setup.getPlayerList().get(i);
 				try {
+					System.out.println(p.getPosition().toString());
 					Setup.getSemaphore().acquire();
 					p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
 							p.getPosition().getY() + p.getDeltaPosition().getY());
@@ -31,7 +32,8 @@ public class Frame implements Runnable {
 	}
 
 	private void collisions() {
-		List tempList = ((List) ((ArrayList) Setup.getPlayerList()).clone());
+		@SuppressWarnings("unchecked")
+		List<Player> tempList = ((List<Player>) ((ArrayList<Player>) Setup.getPlayerList()).clone());
 		for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 			Player p = Setup.getPlayerList().get(i);
 			if (tempList.contains(p)) {
@@ -40,7 +42,7 @@ public class Frame implements Runnable {
 		}
 	}
 
-	private void collision(Player p1, List tempList) {
+	private void collision(Player p1, List<Player> tempList) {
 		for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 			Player p2 = Setup.getPlayerList().get(i);
 			if (p1 != p2) { // On compare bien les references

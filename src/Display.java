@@ -1,14 +1,11 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.InputStream;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -82,10 +79,10 @@ public class Display extends Application {
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
 					p.getPion().setCenterX(
-							p.getPosition().getX() * (Configuration.boardRadius) / (double) Configuration.mapRadius
+							p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
 									+ Configuration.width / 2);
 					p.getPion().setCenterY(
-							p.getPosition().getY() * (Configuration.boardRadius) / (double) Configuration.mapRadius
+							p.getPosition().getY() * (Configuration.boardRadius) /  Configuration.mapRadius
 									+ Configuration.height / 2);
 					p.getPion().setRadius(Configuration.pionRadius);
 				}

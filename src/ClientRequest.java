@@ -36,11 +36,10 @@ public class ClientRequest implements Runnable {
 								+ "," + player.getPosition().toString();
 						break;
 					case 1:
-						player.move(Integer.parseInt(tabInfos[1]) * 3, Integer.parseInt(tabInfos[2]) * 3);
+						player.move(Double.parseDouble(tabInfos[1]) * 3, Double.parseDouble(tabInfos[2]) * 3);
 						toSend = "1," + player.getPosition().toString() + "," + nextTo();
 
 					default:
-						//closeConnexion=true;
 						break;
 					}
 					//System.out.println("Command "+toSend);
