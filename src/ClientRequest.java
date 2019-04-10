@@ -26,7 +26,7 @@ public class ClientRequest implements Runnable {
 			try {
 				sock.setSoTimeout(1000);
 				String response = read();
-				System.out.println("Response "+response);
+				//System.out.println("Response "+response);
 				if (response != "") {
 					String tabInfos[] = response.split(",");
 					switch (Integer.parseInt(tabInfos[0])) {
@@ -43,7 +43,7 @@ public class ClientRequest implements Runnable {
 						//closeConnexion=true;
 						break;
 					}
-					System.out.println("Command "+toSend);
+					//System.out.println("Command "+toSend);
 					writer.write(toSend);
 					writer.flush();
 				} else

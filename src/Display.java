@@ -95,13 +95,13 @@ public class Display extends Application {
 	}
 
 	private void strong() {
-		Class<?> clazz = this.getClass();
+		/*Class<?> clazz = this.getClass();
 		InputStream input = clazz.getResourceAsStream("Image/strongCircle.png");
 		Image image = new Image(input, Configuration.height / 7, Configuration.height / 7, false, true);
 		ImageView strong = new ImageView(image);
 		strong.setX(Configuration.width - Configuration.tableWidth - Configuration.height / 7 - 20);
 		strong.setY(20);
-		root.getChildren().add(strong);
+		root.getChildren().add(strong);*/
 	}
 
 	private void host() {

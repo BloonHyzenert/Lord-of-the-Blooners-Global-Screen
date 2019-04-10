@@ -49,4 +49,14 @@ public class Position {
 	public String toString() {
 		return x + "," + y;
 	}
+
+	public void incX() {
+		x+=10;
+		
+	}
+
+	public void decX() {
+		x-=10;
+		
+	}
 }
