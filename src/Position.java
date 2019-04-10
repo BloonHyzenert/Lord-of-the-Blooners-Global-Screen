@@ -25,6 +25,10 @@ public class Position {
 			setY(y);
 		}
 	}
+	
+	public double distance(Position p) {
+		return Math.sqrt(Math.pow(this.x - p.x,2)+Math.pow(this.y - p.y, 2));
+	}
 
 	public int getY() {
 		return y;
