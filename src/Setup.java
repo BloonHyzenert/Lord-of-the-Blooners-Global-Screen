@@ -1,10 +1,9 @@
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
+import sun.applet.Main;
 
 public class Setup {
 
@@ -17,24 +16,27 @@ public class Setup {
 	public static AudioClip BlurpSong;
 	public static AudioClip GrounchSong;
 	public static AudioClip KrokSong;
+	public static String strongImage;
 	
 	public Setup() {
 		semaPlayerList=new Semaphore(1,true);
 		krok.setStrong(blurp);
 		grounch.setStrong(krok);
 		blurp.setStrong(grounch);
-        String bip = "src/music/BlurpSong.mp3";
-        Media hit = new Media(Paths.get(bip).toUri().toString());
+        String bip = Main.class.getResource("/ressources/BlurpSong.mp3").toString();
+        Media hit = new Media(bip);
         BlurpSong = new AudioClip(hit.getSource());
         BlurpSong.setCycleCount(AudioClip.INDEFINITE); 
-        String bip1 = "src/music/GrounchSong.mp3";
-        Media hit1 = new Media(Paths.get(bip1).toUri().toString());
+        String bip1 = Main.class.getResource("/ressources/GrounchSong.mp3").toString();
+        Media hit1 = new Media(bip1);
         GrounchSong = new AudioClip(hit1.getSource());
         GrounchSong.setCycleCount(AudioClip.INDEFINITE); 
-        String bip11 = "src/music/KrokSong.mp3";
-        Media hit11 = new Media(Paths.get(bip11).toUri().toString());
+        String bip11 = Main.class.getResource("/ressources/KrokSong.mp3").toString();
+        Media hit11 = new Media(bip11);
         KrokSong = new AudioClip(hit11.getSource());
-        KrokSong.setCycleCount(AudioClip.INDEFINITE); 
+        KrokSong.setCycleCount(AudioClip.INDEFINITE);
+		strongImage = Main.class.getResource("/ressources/strongCircle.png").toString();
+		
 	}
 
 	public static void init() {

@@ -10,10 +10,17 @@ public class Frame implements Runnable {
 			for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 				Player p = Setup.getPlayerList().get(i);
 				try {
-					//System.out.println(p.getPosition().toString());
+					// System.out.println(p.getPosition().toString());
 					Setup.getSemaphore().acquire();
 					p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
 							p.getPosition().getY() + p.getDeltaPosition().getY());
+					p.getPion()
+							.setCenterX(p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
+									+ Configuration.width / 2);
+					p.getPion()
+							.setCenterY(p.getPosition().getY() * (Configuration.boardRadius) / Configuration.mapRadius
+									+ Configuration.height / 2);
+					p.getPion().setRadius(Configuration.pionRadius);
 					Setup.getSemaphore().release();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -47,7 +54,8 @@ public class Frame implements Runnable {
 			Player p2 = Setup.getPlayerList().get(i);
 			if (p1 != p2) { // On compare bien les references
 				if (p1.getPosition().distance(p2.getPosition()) < (Configuration.microbeRadius * 2) - 3) {
-					eat(p1, p2);
+					if (Configuration.start)
+						eat(p1, p2);
 					ecarter(p1, p2);
 					collision(p1, tempList);
 					collision(p2, tempList);

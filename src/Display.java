@@ -1,11 +1,12 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -53,6 +54,7 @@ public class Display extends Application {
 		getScreenSize();
 		board();
 		scoreTable();
+		scoreTeamTable();
 		host();
 		strong();
 
@@ -72,33 +74,77 @@ public class Display extends Application {
 		}
 		primaryStage.show();
 
-		AnimationTimer boucle = new AnimationTimer() {
+		/*AnimationTimer boucle = new AnimationTimer() {
 
 			@Override
 			public void handle(long now) {
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
-					p.getPion().setCenterX(
-							p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
-									+ Configuration.width / 2);
-					p.getPion().setCenterY(
-							p.getPosition().getY() * (Configuration.boardRadius) /  Configuration.mapRadius
-									+ Configuration.height / 2);
-					p.getPion().setRadius(Configuration.pionRadius);
 				}
 			}
 		};
-		boucle.start();
+		boucle.start();*/
+	}
+
+	private void scoreTeamTable() {
+		Text text = new Text();
+		Setup.getBlurp().setNameBox(text);
+		text.setFont(new Font(20));
+		text.setText(Setup.getBlurp().getName());
+		text.setX(Configuration.width-Configuration.tableWidth+20);
+		text.setY(Configuration.ytext);
+		text.setFill(Color.BLUE);
+		root.getChildren().add(text);
+		Text text1 = new Text();
+		Setup.getKrok().setNameBox(text1);
+		text1.setFont(new Font(20));
+		text1.setText(Setup.getKrok().getName());
+		text1.setX(Configuration.width-Configuration.tableWidth+20);
+		text1.setY(Configuration.ytext +  Configuration.leading);
+		text1.setFill(Color.YELLOW);
+		root.getChildren().add(text1);
+		Text text2 = new Text();
+		Setup.getGrounch().setNameBox(text2);
+		text2.setFont(new Font(20));
+		text2.setText(Setup.getGrounch().getName());
+		text2.setX(Configuration.width-Configuration.tableWidth+20);
+		text2.setY(Configuration.ytext + 2* Configuration.leading);
+		text2.setFill(Color.RED);
+		root.getChildren().add(text2);
+		
+		Text text12 = new Text();
+		Setup.getBlurp().setScoreBox(text12);
+		text12.setFont(new Font(20));
+		text12.setText(""+Setup.getBlurp().getScore());
+		text12.setX(Configuration.width-Configuration.tableWidth+200);
+		text12.setY(Configuration.ytext);
+		text12.setFill(Color.BLUE);
+		root.getChildren().add(text12);
+		Text text21 = new Text();
+		Setup.getKrok().setScoreBox(text21);
+		text21.setFont(new Font(20));
+		text21.setText(""+Setup.getKrok().getScore());
+		text21.setX(Configuration.width-Configuration.tableWidth+200);
+		text21.setY(Configuration.ytext +  Configuration.leading);
+		text21.setFill(Color.YELLOW);
+		root.getChildren().add(text21);
+		Text text32 = new Text();
+		Setup.getGrounch().setScoreBox(text32);
+		text32.setFont(new Font(20));
+		text32.setText(""+Setup.getGrounch().getScore());
+		text32.setX(Configuration.width-Configuration.tableWidth+200);
+		text32.setY(Configuration.ytext + 2* Configuration.leading);
+		text32.setFill(Color.RED);
+		root.getChildren().add(text32);
+		
 	}
 
 	private void strong() {
-		/*Class<?> clazz = this.getClass();
-		InputStream input = clazz.getResourceAsStream("Image/strongCircle.png");
-		Image image = new Image(input, Configuration.height / 7, Configuration.height / 7, false, true);
+		Image image = new Image(Setup.strongImage, Configuration.height / 7, Configuration.height / 7, false, true);
 		ImageView strong = new ImageView(image);
 		strong.setX(Configuration.width - Configuration.tableWidth - Configuration.height / 7 - 20);
 		strong.setY(20);
-		root.getChildren().add(strong);*/
+		root.getChildren().add(strong);
 	}
 
 	private void host() {
