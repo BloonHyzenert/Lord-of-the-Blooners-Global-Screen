@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -44,6 +45,7 @@ public class Display extends Application {
 
 				case SPACE:
 					Setup.init();
+					System.out.println("START");
 
 				default:
 					break;
@@ -57,33 +59,57 @@ public class Display extends Application {
 		scoreTeamTable();
 		host();
 		strong();
+		play();
 
-		int rand = (int) (Math.random() * 3);
-		switch (rand) {
-		case 0:
-			Setup.KrokSong.play();
-			break;
-		case 1:
-			Setup.GrounchSong.play();;
-			break;
-		case 2:
-			Setup.BlurpSong.play();
-			break;
-		default:
-			break;
-		}
 		primaryStage.show();
 
-		/*AnimationTimer boucle = new AnimationTimer() {
+		/*
+		 * AnimationTimer boucle = new AnimationTimer() {
+		 * 
+		 * @Override public void handle(long now) { for (int i = 0; i <
+		 * Setup.getPlayerList().size(); i++) { Player p = Setup.getPlayerList().get(i);
+		 * } } }; boucle.start();
+		 */
+	}
 
+	public static void play() {
+		Platform.runLater(new Runnable() {
 			@Override
-			public void handle(long now) {
-				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
-					Player p = Setup.getPlayerList().get(i);
+			public void run() {
+				Setup.KrokSong.stop();
+				Setup.GrounchSong.stop();
+				Setup.BlurpSong.stop();
+				int rand = (int) (Math.random() * 3);
+				switch (rand) {
+				case 0:
+					Setup.KrokSong.play();
+					break;
+				case 1:
+					Setup.GrounchSong.play();
+					;
+					break;
+				case 2:
+					Setup.BlurpSong.play();
+					break;
+				default:
+					break;
 				}
 			}
-		};
-		boucle.start();*/
+		});
+
+	}
+
+	public static void play(AudioClip song) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Setup.KrokSong.stop();
+				Setup.GrounchSong.stop();
+				Setup.BlurpSong.stop();
+				song.play();
+			}
+		});
+
 	}
 
 	private void scoreTeamTable() {
@@ -91,52 +117,52 @@ public class Display extends Application {
 		Setup.getBlurp().setNameBox(text);
 		text.setFont(new Font(20));
 		text.setText(Setup.getBlurp().getName());
-		text.setX(Configuration.width-Configuration.tableWidth+20);
-		text.setY(Configuration.ytext);
+		text.setX(Configuration.width - Configuration.tableWidth + 20);
+		text.setY(Configuration.ytext + Configuration.leading);
 		text.setFill(Color.BLUE);
 		root.getChildren().add(text);
 		Text text1 = new Text();
 		Setup.getKrok().setNameBox(text1);
 		text1.setFont(new Font(20));
 		text1.setText(Setup.getKrok().getName());
-		text1.setX(Configuration.width-Configuration.tableWidth+20);
-		text1.setY(Configuration.ytext +  Configuration.leading);
+		text1.setX(Configuration.width - Configuration.tableWidth + 20);
+		text1.setY(Configuration.ytext + 2 * Configuration.leading);
 		text1.setFill(Color.YELLOW);
 		root.getChildren().add(text1);
 		Text text2 = new Text();
 		Setup.getGrounch().setNameBox(text2);
 		text2.setFont(new Font(20));
 		text2.setText(Setup.getGrounch().getName());
-		text2.setX(Configuration.width-Configuration.tableWidth+20);
-		text2.setY(Configuration.ytext + 2* Configuration.leading);
+		text2.setX(Configuration.width - Configuration.tableWidth + 20);
+		text2.setY(Configuration.ytext);
 		text2.setFill(Color.RED);
 		root.getChildren().add(text2);
-		
+
 		Text text12 = new Text();
 		Setup.getBlurp().setScoreBox(text12);
 		text12.setFont(new Font(20));
-		text12.setText(""+Setup.getBlurp().getScore());
-		text12.setX(Configuration.width-Configuration.tableWidth+200);
-		text12.setY(Configuration.ytext);
+		text12.setText("" + Setup.getBlurp().getScore());
+		text12.setX(Configuration.width - Configuration.tableWidth + 200);
+		text12.setY(Configuration.ytext + Configuration.leading);
 		text12.setFill(Color.BLUE);
 		root.getChildren().add(text12);
 		Text text21 = new Text();
 		Setup.getKrok().setScoreBox(text21);
 		text21.setFont(new Font(20));
-		text21.setText(""+Setup.getKrok().getScore());
-		text21.setX(Configuration.width-Configuration.tableWidth+200);
-		text21.setY(Configuration.ytext +  Configuration.leading);
+		text21.setText("" + Setup.getKrok().getScore());
+		text21.setX(Configuration.width - Configuration.tableWidth + 200);
+		text21.setY(Configuration.ytext + 2 * Configuration.leading);
 		text21.setFill(Color.YELLOW);
 		root.getChildren().add(text21);
 		Text text32 = new Text();
 		Setup.getGrounch().setScoreBox(text32);
 		text32.setFont(new Font(20));
-		text32.setText(""+Setup.getGrounch().getScore());
-		text32.setX(Configuration.width-Configuration.tableWidth+200);
-		text32.setY(Configuration.ytext + 2* Configuration.leading);
+		text32.setText("" + Setup.getGrounch().getScore());
+		text32.setX(Configuration.width - Configuration.tableWidth + 200);
+		text32.setY(Configuration.ytext);
 		text32.setFill(Color.RED);
 		root.getChildren().add(text32);
-		
+
 	}
 
 	private void strong() {
@@ -226,7 +252,7 @@ public class Display extends Application {
 
 	protected static void colorPion(Player player) {
 
-		Circle pion=player.getPion();
+		Circle pion = player.getPion();
 		switch (player.getTeam().getColor()) {
 		case "red":
 			pion.setFill(Color.RED);
@@ -239,7 +265,7 @@ public class Display extends Application {
 			break;
 		default:
 			break;
-		}		
+		}
 	}
 
 	public static void addText(Player player) {
@@ -268,7 +294,7 @@ public class Display extends Application {
 	}
 
 	protected static void colorName(Player player) {
-		
+
 		Text text = player.getNameBox();
 
 		switch (player.getTeam().getColor()) {
@@ -284,11 +310,11 @@ public class Display extends Application {
 		default:
 			break;
 		}
-		
+
 	}
 
 	protected static void colorScore(Player player) {
-		
+
 		Text text = player.getScoreBox();
 
 		switch (player.getTeam().getColor()) {
@@ -304,7 +330,7 @@ public class Display extends Application {
 		default:
 			break;
 		}
-		
+
 	}
 
 }

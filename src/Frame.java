@@ -33,7 +33,7 @@ public class Frame implements Runnable {
 				TimeUnit.MILLISECONDS.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
+			} 
 		}
 
 	}
@@ -69,16 +69,10 @@ public class Frame implements Runnable {
 
 		if (p1.getTeam().getStrong() == p2.getTeam()) {
 			p1.upScore();
-			p1.getTeam().addPlayer(p2.getTeam().removePlayer(p2));
-			Display.colorPion(p2);
-			Display.colorName(p2);
-			Display.colorScore(p2);
+			Setup.changePlayer(p2, p1.getTeam());
 		} else if (p2.getTeam().getStrong() == p1.getTeam()) {
 			p2.upScore();
-			p2.getTeam().addPlayer(p1.getTeam().removePlayer(p1));
-			Display.colorPion(p1);
-			Display.colorName(p1);
-			Display.colorScore(p1);
+			Setup.changePlayer(p1, p2.getTeam());
 		}
 	}
 

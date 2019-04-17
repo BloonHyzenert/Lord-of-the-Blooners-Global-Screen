@@ -17,36 +17,39 @@ public class Setup {
 	public static AudioClip GrounchSong;
 	public static AudioClip KrokSong;
 	public static String strongImage;
-	
+
 	public Setup() {
-		semaPlayerList=new Semaphore(1,true);
+		semaPlayerList = new Semaphore(1, true);
 		krok.setStrong(blurp);
 		grounch.setStrong(krok);
 		blurp.setStrong(grounch);
-        String bip = Main.class.getResource("/ressources/BlurpSong.mp3").toString();
-        Media hit = new Media(bip);
-        BlurpSong = new AudioClip(hit.getSource());
-        BlurpSong.setCycleCount(AudioClip.INDEFINITE); 
-        String bip1 = Main.class.getResource("/ressources/GrounchSong.mp3").toString();
-        Media hit1 = new Media(bip1);
-        GrounchSong = new AudioClip(hit1.getSource());
-        GrounchSong.setCycleCount(AudioClip.INDEFINITE); 
-        String bip11 = Main.class.getResource("/ressources/KrokSong.mp3").toString();
-        Media hit11 = new Media(bip11);
-        KrokSong = new AudioClip(hit11.getSource());
-        KrokSong.setCycleCount(AudioClip.INDEFINITE);
+		String bip = Main.class.getResource("/ressources/BlurpSong.mp3").toString();
+		Media hit = new Media(bip);
+		BlurpSong = new AudioClip(hit.getSource());
+		BlurpSong.setCycleCount(AudioClip.INDEFINITE);
+		String bip1 = Main.class.getResource("/ressources/GrounchSong.mp3").toString();
+		Media hit1 = new Media(bip1);
+		GrounchSong = new AudioClip(hit1.getSource());
+		GrounchSong.setCycleCount(AudioClip.INDEFINITE);
+		String bip11 = Main.class.getResource("/ressources/KrokSong.mp3").toString();
+		Media hit11 = new Media(bip11);
+		KrokSong = new AudioClip(hit11.getSource());
+		KrokSong.setCycleCount(AudioClip.INDEFINITE);
 		strongImage = Main.class.getResource("/ressources/strongCircle.png").toString();
-		
+
 	}
 
 	public static void init() {
+		Display.play();
 		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 3 * Configuration.microbeRadius + 1;
 		Configuration.mapRadius = Configuration.maxMapRadius;
 		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
 				/ (double) Configuration.maxMapRadius);
+		balance();
 		setStartPositions();
 		Configuration.start = true;
-		
+		new Thread(new SortList()).start();
+
 	}
 
 	public static void addPlayer(Player player) {
@@ -73,10 +76,47 @@ public class Setup {
 		player.getTeam().removePlayer(player);
 	}
 
+	public static void changePlayer(Player player, Team t) {
+		t.addPlayer(player.getTeam().removePlayer(player));
+		Display.colorPion(player);
+		Display.colorName(player);
+		Display.colorScore(player);
+	}
+
 	private static void setStartPositions() {
 		for (int i = 0; i < playerList.size(); i++) {
 			playerList.get(i).setStartPosition();
 		}
+	}
+
+	public static void balance() {
+		Team min;
+		Team max;
+		Team moy;
+
+		do {
+			if (blurp.size() > krok.size()) {
+				max = blurp;
+				min = krok;
+				moy=grounch;
+			}else {
+				min = blurp;
+				max = krok;
+				moy=grounch;
+			}
+			if (grounch.size()>max.size())
+				moy=max;
+				max = grounch;
+			if (grounch.size()<min.size())
+				moy=min;
+				min = grounch;
+				
+			if (max.size() - min.size() > 1) {
+				changePlayer(max.get((int) (Math.random() * max.size())), min);
+			}
+
+		} while (max.size()-min.size()>1 || max.size()-moy.size()>1);
+
 	}
 
 	public static Team getKrok() {
