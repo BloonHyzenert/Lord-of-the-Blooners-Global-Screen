@@ -104,15 +104,18 @@ public class Setup {
 				max = krok;
 				moy=grounch;
 			}
-			if (grounch.size()>max.size())
+			if (grounch.size()>max.size()) {
 				moy=max;
 				max = grounch;
-			if (grounch.size()<min.size())
+			}
+			if (grounch.size()<min.size()) {
 				moy=min;
 				min = grounch;
+			}
 				
 			if (max.size() - min.size() > 1) {
 				changePlayer(max.get((int) (Math.random() * max.size())), min);
+				System.out.println("ok");
 			}
 
 		} while (max.size()-min.size()>1 || max.size()-moy.size()>1);
