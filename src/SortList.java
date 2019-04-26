@@ -7,9 +7,28 @@ public class SortList implements Runnable {
 	public void run() {
 		int teamTime = 0;
 		Team first = null;
+		Display.timerLabel.setVisible(true);
+		for (int j = 9; j > -1; j--) {
+			Display.start(j);
+			try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		Display.timerLabel.setVisible(false);
+		Display.play();
+		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 2 * Configuration.microbeRadius + 1;
+		Configuration.mapRadius = Configuration.maxMapRadius;
+		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
+				/ (double) Configuration.maxMapRadius);
+		Setup.balance();
+		Setup.setStartPositions();
+		Configuration.start = true;
 		while (!Configuration.end && Configuration.start) {
 
-			System.out.println(first+"  "+teamTime);
+			System.out.println(first + "  " + teamTime);
 			try {
 				Setup.getSemaphore().acquire();
 				Collections.sort(Setup.getPlayerList(), Collections.reverseOrder());
@@ -48,14 +67,9 @@ public class SortList implements Runnable {
 						teamTime = 0;
 					first = Setup.getGrounch();
 				}
-				
-				Display.actualizeScoreTeam(posB,posK,posG, scoreBlurp,scoreKrok, scoreGrounch);
 
+				Display.actualizeScoreTeam(posB, posK, posG, scoreBlurp, scoreKrok, scoreGrounch);
 
-				if (Setup.getBlurp().size() == 0 || Setup.getKrok().size() == 0 || Setup.getGrounch().size() == 0) {
-					Configuration.start = false;
-					System.out.println("END");
-				}
 				if (teamTime == 15) {
 					if (first == Setup.getBlurp() && !Setup.BlurpSong.isPlaying())
 						Display.play(Setup.BlurpSong);
@@ -63,6 +77,12 @@ public class SortList implements Runnable {
 						Display.play(Setup.KrokSong);
 					else if (first == Setup.getGrounch() && !Setup.GrounchSong.isPlaying())
 						Display.play(Setup.GrounchSong);
+				}
+
+				if (Setup.getBlurp().size() == 0 || Setup.getKrok().size() == 0 || Setup.getGrounch().size() == 0) {
+					Configuration.start = false;
+					System.out.println("END");
+					Display.end();		
 				}
 
 			} catch (InterruptedException e1) {

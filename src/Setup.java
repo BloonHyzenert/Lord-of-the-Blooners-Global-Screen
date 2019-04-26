@@ -36,18 +36,12 @@ public class Setup {
 		KrokSong = new AudioClip(hit11.getSource());
 		KrokSong.setCycleCount(AudioClip.INDEFINITE);
 		strongImage = Main.class.getResource("/ressources/strongCircle.png").toString();
-
 	}
 
 	public static void init() {
-		Display.play();
-		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 2 * Configuration.microbeRadius + 1;
-		Configuration.mapRadius = Configuration.maxMapRadius;
-		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
-				/ (double) Configuration.maxMapRadius);
-		balance();
-		setStartPositions();
-		Configuration.start = true;
+		Display.premier.setVisible(false);
+		Display.deuxieme.setVisible(false);
+		Display.troisieme.setVisible(false);
 		new Thread(new SortList()).start();
 
 	}
@@ -83,7 +77,7 @@ public class Setup {
 		Display.colorScore(player);
 	}
 
-	private static void setStartPositions() {
+	public static void setStartPositions() {
 		for (int i = 0; i < playerList.size(); i++) {
 			playerList.get(i).setStartPosition();
 		}

@@ -25,6 +25,10 @@ public class Display extends Application {
 
 	private static Stage primaryStage;
 	private static Group root;
+	public static Text timerLabel;
+	public static Text premier;
+	public static Text deuxieme;
+	public static Text troisieme;
 
 	@Override
 	public void start(Stage stage) {
@@ -65,6 +69,8 @@ public class Display extends Application {
 		host();
 		strong();
 		play();
+		timer();
+		scorefinal();
 
 		primaryStage.show();
 
@@ -103,6 +109,44 @@ public class Display extends Application {
 			}
 		};
 		boucle.start();
+
+	}
+
+	private void scorefinal() {
+		premier = new Text();
+		premier.setFont(new Font(70));
+		premier.setText("1 : vide");
+		premier.setX(Configuration.width / 2 - 450);
+		premier.setY(Configuration.height / 2 - 100);
+		premier.setVisible(false);
+		root.getChildren().add(premier);
+
+		deuxieme = new Text();
+		deuxieme.setFont(new Font(70));
+		deuxieme.setText("2 : vide");
+		deuxieme.setX(Configuration.width / 2 - 450);
+		deuxieme.setY(Configuration.height / 2);
+		deuxieme.setVisible(false);
+		root.getChildren().add(deuxieme);
+
+		troisieme = new Text();
+		troisieme.setFont(new Font(70));
+		troisieme.setText("3 : vide");
+		troisieme.setX(Configuration.width / 2 - 450);
+		troisieme.setY(Configuration.height / 2 + 100);
+		troisieme.setVisible(false);
+		root.getChildren().add(troisieme);
+
+	}
+
+	private void timer() {
+		timerLabel = new Text();
+		timerLabel.setFont(new Font(700));
+		timerLabel.setText("9");
+		timerLabel.setX(Configuration.width / 2 - 200);
+		timerLabel.setY(Configuration.height / 2 + 250);
+		timerLabel.setVisible(false);
+		root.getChildren().add(timerLabel);
 
 	}
 
@@ -373,7 +417,7 @@ public class Display extends Application {
 				player.setScoreBox(text1);
 				text1.setFont(new Font(20));
 				text1.setText("" + player.getScore());
-				text1.setX(Configuration.xtext + 150);
+				text1.setX(Configuration.xtext + 300);
 				text1.setY(Configuration.ytext + (Setup.getPlayerList().size() - 1) * Configuration.leading);
 				colorScore(player);
 				root.getChildren().add(text1);
@@ -456,7 +500,46 @@ public class Display extends Application {
 				Setup.getGrounch().getScoreBox().setText("" + scoreGrounch);
 			}
 		});
-		// TODO Auto-generated method stub
+
+	}
+
+	public static void start(int i) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				timerLabel.setText("" + i);
+			}
+		});
+	}
+
+	public static void end() {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+
+				premier.setVisible(true);
+				deuxieme.setVisible(true);
+				troisieme.setVisible(true);
+				int s = Setup.getPlayerList().size();
+				if (s > 0)
+					premier.setText("1 : " + Setup.getPlayerList().get(0).getPseudo() + "  "
+							+ Setup.getPlayerList().get(0).getScore());
+				else
+					premier.setText("1 : null  0");
+
+				if (s > 1)
+					deuxieme.setText("2 : " + Setup.getPlayerList().get(1).getPseudo() + "  "
+							+ Setup.getPlayerList().get(1).getScore());
+				else
+					deuxieme.setText("2 : null  0");
+
+				if (s > 2)
+					troisieme.setText("3 : " + Setup.getPlayerList().get(2).getPseudo() + "  "
+							+ Setup.getPlayerList().get(2).getScore());
+				else
+					troisieme.setText("3 : null  0");
+			}
+		});
 
 	}
 
