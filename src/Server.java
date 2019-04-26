@@ -48,7 +48,6 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				while (!Configuration.end) {
-					while (!Configuration.start) {
 						if (Setup.getPlayerList().size() < 99) {
 							try {
 								Socket client = server.accept();
@@ -57,9 +56,6 @@ public class Server {
 								e.printStackTrace();
 							}
 						}
-						if (Configuration.end)
-							break;
-					}
 				}
 				System.out.println("end");
 				try {

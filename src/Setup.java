@@ -41,7 +41,7 @@ public class Setup {
 
 	public static void init() {
 		Display.play();
-		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 3 * Configuration.microbeRadius + 1;
+		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 2 * Configuration.microbeRadius + 1;
 		Configuration.mapRadius = Configuration.maxMapRadius;
 		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
 				/ (double) Configuration.maxMapRadius);
