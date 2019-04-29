@@ -13,11 +13,13 @@ public class Player implements Comparable<Player> {
 	private int score;
 	private ClientRequest dialog;
 	private Position position;
+	private Position dernierePosition;
 	private Position deltaPosition;
 
 	public Player(ClientRequest dialog, String tPseudo) {
 		setDialog(dialog);
 		position = new Position();
+		dernierePosition = new Position();
 		deltaPosition = new Position();
 		setPseudo(tPseudo);
 		setScore(0);
@@ -37,15 +39,19 @@ public class Player implements Comparable<Player> {
 		switch (team.getName()) {
 		case "Krok":
 			setPosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
+			//setDernierePosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Blurp":
 			setPosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
+			//setDernierePosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Grounch":
 			setPosition(0,Configuration.mapRadius/2.0);
+			//setDernierePosition(0,Configuration.mapRadius/2.0);
 			break;
 		case "Item":
 			setPosition(new Position(-Configuration.maxMapRadius / 2, -Configuration.maxMapRadius / 2));
+			setDernierePosition(new Position(-Configuration.maxMapRadius / 2, -Configuration.maxMapRadius / 2));
 			break;
 		default:
 			break;
@@ -88,6 +94,24 @@ public class Player implements Comparable<Player> {
 		this.position.setPosition(d, e);
 	}
 
+	public Position getDernierePosition() {
+		System.out.println("ID : "+ this.playerID +"  Derniere position :" + this.dernierePosition);
+		return this.dernierePosition;
+	}
+
+	public void setDernierePosition(Position dernierePosition) {
+		System.out.println("ID : "+ this.playerID +"  New Derniere position :" + this.dernierePosition);
+		this.dernierePosition = dernierePosition;
+		System.out.println("ID : "+ this.playerID +"  New Derniere position2 :" + this.dernierePosition);
+	}
+
+	/*public void setDernierePosition(int x, int y) {
+		this.dernierePosition.setPosition((double)x, (double) y);
+	}
+	
+	public void setDernierePosition(double d, double e) {
+		this.dernierePosition.setPosition(d, e);
+	}*/
 
 	public Team getTeam() {
 		return team;

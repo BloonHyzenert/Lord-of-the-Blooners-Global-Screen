@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Display extends Application {
 
@@ -30,6 +32,15 @@ public class Display extends Application {
 	public void start(Stage stage) {
 
 		primaryStage = stage;
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				primaryStage.close();
+				System.exit(0);
+				
+			}
+		});
 
 		primaryStage.setTitle("Lord of the Blooners");
 		root = new Group();
@@ -45,15 +56,14 @@ public class Display extends Application {
 					Configuration.end = true;
 					primaryStage.close();
 					System.exit(0);
-
 					break;
-
 				case SPACE:
 					Setup.init();
 					System.out.println("START");
-
+					break;
 				default:
 					break;
+		
 				}
 			}
 		});
@@ -65,19 +75,43 @@ public class Display extends Application {
 		host();
 		strong();
 		play();
-
+		
 		primaryStage.show();
 
 		AnimationTimer boucle = new AnimationTimer() {
 
 			public void handle(long now) {
+				Position tempPos = new Position();
+				double deltaX, deltaY;
+				double vitesseDeplacement;
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
+					//System.out.println("\nDerniere position : " + p.getDernierePosition().toString());
 					try {
 						// System.out.println(p.getPosition().toString());
 						Setup.getSemaphore().acquire();
-						p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
-								p.getPosition().getY() + p.getDeltaPosition().getY());
+						tempPos.setPosition(p.getPosition().getX(), p.getPosition().getY());
+						//System.out.println("X : " + p.getPosition().getX() + "   Y : " + p.getPosition().getY());
+						//System.out.println("X : " + tempPos.getX() + "   Y : " + tempPos.getY());
+						deltaX = p.getDeltaPosition().getX() + Configuration.coefFriction *(p.getPosition().getX() - p.getDernierePosition().getX());
+						deltaY = p.getDeltaPosition().getY() + Configuration.coefFriction *(p.getPosition().getY() - p.getDernierePosition().getY());
+						vitesseDeplacement = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "\np.position : "+  p.getPosition().toString() + "    p.derniereposition" + p.getDernierePosition().toString());
+						if (vitesseDeplacement > Configuration.vitesseMax) {
+							deltaX = (deltaX / vitesseDeplacement) * Configuration.vitesseMax;
+							deltaY = (deltaY / vitesseDeplacement) * Configuration.vitesseMax;
+						}
+						
+						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "    p.position : "+  p.getPosition().toString());
+						p.setPosition(p.getPosition().getX() + deltaX, p.getPosition().getY() + deltaY);
+						//System.out.println("ID : " + p.getPlayerID()+ "   TempPos : " + tempPos.toString());
+						p.setDernierePosition(tempPos);
+						//System.out.println("\nDerniere position : " + p.getDernierePosition().toString());
+						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "\nposition : "+ p.getPosition().toString() + "  dernierePosition : " + p.getDernierePosition().toString() + "\n deltaPosition" + p.getDeltaPosition().toString()) ;
+						
+						//System.out.println("id : "+ p.getPlayerID()+ "    deltaPosition : " + p.getDeltaPosition().toString());
+						//p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
+								//p.getPosition().getY() + p.getDeltaPosition().getY());
 						if (p.getPion() != null) {
 							p.getPion().setCenterX(
 									p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
@@ -89,7 +123,7 @@ public class Display extends Application {
 						}
 						Setup.getSemaphore().release();
 					} catch (InterruptedException e) {
-						// e.printStackTrace();
+						 e.printStackTrace();
 					}
 				}
 
@@ -103,7 +137,6 @@ public class Display extends Application {
 			}
 		};
 		boucle.start();
-
 	}
 
 	private void collisions() {

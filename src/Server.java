@@ -19,11 +19,13 @@ public class Server {
 		create();
 		open();
 	}
+	
+	
 
 	public void create() {
 		try {
 			NetworkInterface n1 = NetworkInterface.getByName("wlp2s0");
-			System.out.println(n1.getInetAddresses().nextElement().getHostName());
+			//System.out.println(n1.getInetAddresses().nextElement().getHostName());
 			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 			while (e.hasMoreElements()) {
 				NetworkInterface n = (NetworkInterface) e.nextElement();
