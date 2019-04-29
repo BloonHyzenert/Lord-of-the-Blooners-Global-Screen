@@ -13,9 +13,6 @@ public class Setup {
 	private static Team blurp = new Team("Blurp", "blue");
 	private static Team item = new Team("Item", "white");
 	private static List<Player> playerList = new ArrayList<Player>();
-	public static AudioClip BlurpSong;
-	public static AudioClip GrounchSong;
-	public static AudioClip KrokSong;
 	public static String strongImage;
 
 	public Setup() {
@@ -23,18 +20,6 @@ public class Setup {
 		krok.setStrong(blurp);
 		grounch.setStrong(krok);
 		blurp.setStrong(grounch);
-		String bip = Main.class.getResource("/ressources/BlurpSong.mp3").toString();
-		Media hit = new Media(bip);
-		BlurpSong = new AudioClip(hit.getSource());
-		BlurpSong.setCycleCount(AudioClip.INDEFINITE);
-		String bip1 = Main.class.getResource("/ressources/GrounchSong.mp3").toString();
-		Media hit1 = new Media(bip1);
-		GrounchSong = new AudioClip(hit1.getSource());
-		GrounchSong.setCycleCount(AudioClip.INDEFINITE);
-		String bip11 = Main.class.getResource("/ressources/KrokSong.mp3").toString();
-		Media hit11 = new Media(bip11);
-		KrokSong = new AudioClip(hit11.getSource());
-		KrokSong.setCycleCount(AudioClip.INDEFINITE);
 		strongImage = Main.class.getResource("/ressources/strongCircle.png").toString();
 	}
 

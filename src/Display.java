@@ -14,12 +14,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import sun.applet.Main;
 
 public class Display extends Application {
 
@@ -29,9 +31,34 @@ public class Display extends Application {
 	public static Text premier;
 	public static Text deuxieme;
 	public static Text troisieme;
+	public static AudioClip BlurpSong;
+	public static AudioClip GrounchSong;
+	public static AudioClip KrokSong;
+	public static AudioClip bip;
+	public static AudioClip bipend;
 
 	@Override
 	public void start(Stage stage) {
+		
+
+		String bip0 = Main.class.getResource("/ressources/BlurpSong.mp3").toString();
+		Media hit = new Media(bip0);
+		BlurpSong = new AudioClip(hit.getSource());
+		BlurpSong.setCycleCount(AudioClip.INDEFINITE);
+		String bip1 = Main.class.getResource("/ressources/GrounchSong.mp3").toString();
+		Media hit1 = new Media(bip1);
+		GrounchSong = new AudioClip(hit1.getSource());
+		GrounchSong.setCycleCount(AudioClip.INDEFINITE);
+		String bip11 = Main.class.getResource("/ressources/KrokSong.mp3").toString();
+		Media hit11 = new Media(bip11);
+		KrokSong = new AudioClip(hit11.getSource());
+		KrokSong.setCycleCount(AudioClip.INDEFINITE);
+		String bip2 = Main.class.getResource("/ressources/bip.mp3").toString();
+		Media hit2 = new Media(bip2);
+		bip = new AudioClip(hit2.getSource());
+		String bip22 = Main.class.getResource("/ressources/bipend.mp3").toString();
+		Media hit22 = new Media(bip22);
+		bipend = new AudioClip(hit22.getSource());
 
 		primaryStage = stage;
 
@@ -142,7 +169,7 @@ public class Display extends Application {
 	private void timer() {
 		timerLabel = new Text();
 		timerLabel.setFont(new Font(700));
-		timerLabel.setText("9");
+		timerLabel.setText("5");
 		timerLabel.setX(Configuration.width / 2 - 200);
 		timerLabel.setY(Configuration.height / 2 + 250);
 		timerLabel.setVisible(false);
@@ -208,20 +235,20 @@ public class Display extends Application {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				Setup.KrokSong.stop();
-				Setup.GrounchSong.stop();
-				Setup.BlurpSong.stop();
+				KrokSong.stop();
+				GrounchSong.stop();
+				BlurpSong.stop();
 				int rand = (int) (Math.random() * 3);
 				switch (rand) {
 				case 0:
-					Setup.KrokSong.play();
+					KrokSong.play();
 					break;
 				case 1:
-					Setup.GrounchSong.play();
+					GrounchSong.play();
 					;
 					break;
 				case 2:
-					Setup.BlurpSong.play();
+					BlurpSong.play();
 					break;
 				default:
 					break;
@@ -235,9 +262,10 @@ public class Display extends Application {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				Setup.KrokSong.stop();
-				Setup.GrounchSong.stop();
-				Setup.BlurpSong.stop();
+				KrokSong.stop();
+				GrounchSong.stop();
+				BlurpSong.stop();
+				if( song !=null)
 				song.play();
 			}
 		});
@@ -469,7 +497,7 @@ public class Display extends Application {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
+				for (int i = 0; i < Setup.getPlayerList().size() && i < 35; i++) {
 					Player p = Setup.getPlayerList().get(i);
 					if (p.getNameBox() != null)
 						p.getNameBox().setY(Configuration.ytext + i * Configuration.leading);
