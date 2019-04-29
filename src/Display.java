@@ -81,13 +81,13 @@ public class Display extends Application {
 		AnimationTimer boucle = new AnimationTimer() {
 
 			public void handle(long now) {
-				Position tempPos = new Position();
-				double deltaX, deltaY;
-				double vitesseDeplacement;
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
 					//System.out.println("\nDerniere position : " + p.getDernierePosition().toString());
 					try {
+						Position tempPos = new Position();
+						double deltaX, deltaY;
+						double vitesseDeplacement;
 						// System.out.println(p.getPosition().toString());
 						Setup.getSemaphore().acquire();
 						tempPos.setPosition(p.getPosition().getX(), p.getPosition().getY());
