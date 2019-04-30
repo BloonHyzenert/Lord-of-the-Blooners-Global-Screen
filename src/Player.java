@@ -8,9 +8,12 @@ public class Player implements Comparable<Player> {
 	private String pseudo;
 	private Team team;
 	private Circle pion;
+	private Circle range;
 	private Text nameBox;
 	private Text scoreBox;
 	private int score;
+	private boolean chargement = false;
+	private int charge = 0;
 	private ClientRequest dialog;
 	private Position position;
 	private Position dernierePosition;
@@ -99,14 +102,11 @@ public class Player implements Comparable<Player> {
 	}
 
 	public Position getDernierePosition() {
-		System.out.println("ID : " + this.playerID + "  Derniere position :" + this.dernierePosition);
 		return this.dernierePosition;
 	}
 
 	public void setDernierePosition(Position dernierePosition) {
-		System.out.println("ID : " + this.playerID + "  New Derniere position :" + this.dernierePosition);
 		this.dernierePosition = dernierePosition;
-		System.out.println("ID : " + this.playerID + "  New Derniere position2 :" + this.dernierePosition);
 	}
 
 	public void setDernierePosition(int x, int y) {
@@ -176,7 +176,39 @@ public class Player implements Comparable<Player> {
 
 	public void upScore() {
 		score += 1;
+	}
+	
+	public void downScore() {
+		score += 1;
+	}
 
+	public boolean isChargement() {
+		return chargement;
+	}
+
+	public void setChargement(boolean chargement) {
+		this.chargement = chargement;
+	}
+
+	public int getCharge() {
+		return charge;
+	}
+
+	public void incCharge() {
+		if(charge<100)
+		charge++;
+	}
+	
+	public void resCharge() {
+		charge=0;
+	}
+
+	public Circle getRange() {
+		return range;
+	}
+
+	public void setRange(Circle range) {
+		this.range = range;
 	}
 
 }

@@ -32,6 +32,7 @@ public class Display extends Application {
 	public static Text premier;
 	public static Text deuxieme;
 	public static Text troisieme;
+	public static Text teamTimer;
 	public static AudioClip BlurpSong;
 	public static AudioClip GrounchSong;
 	public static AudioClip KrokSong;
@@ -114,48 +115,29 @@ public class Display extends Application {
 			public void handle(long now) {
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
-					// System.out.println("\nDerniere position : " +
-					// p.getDernierePosition().toString());
 					try {
 						Position tempPos = new Position();
 						double deltaX, deltaY;
-						double vitesseDeplacement;
-						// System.out.println(p.getPosition().toString());
-						Setup.getSemaphore().acquire();
-						tempPos.setPosition(p.getPosition().getX(), p.getPosition().getY());
-						// System.out.println("X : " + p.getPosition().getX() + " Y : " +
-						// p.getPosition().getY());
-						// System.out.println("X : " + tempPos.getX() + " Y : " + tempPos.getY());
-						deltaX = p.getDeltaPosition().getX() + Configuration.coefFriction
-								* (p.getPosition().getX() - p.getDernierePosition().getX());
-						deltaY = p.getDeltaPosition().getY() + Configuration.coefFriction
-								* (p.getPosition().getY() - p.getDernierePosition().getY());
-						vitesseDeplacement = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-						// System.out.println("Id : " + p.getPlayerID()+ " deltaX : " + deltaX + "
-						// deltaY : " + deltaY + "\np.position : "+ p.getPosition().toString() + "
-						// p.derniereposition" + p.getDernierePosition().toString());
-						if (vitesseDeplacement > Configuration.vitesseMax) {
-							deltaX = (deltaX / vitesseDeplacement) * Configuration.vitesseMax;
-							deltaY = (deltaY / vitesseDeplacement) * Configuration.vitesseMax;
+
+						if (p.isChargement()) {
+							p.incCharge();
+							deltaX = Configuration.coefFriction
+									* (p.getPosition().getX() - p.getDernierePosition().getX());
+							deltaY = Configuration.coefFriction
+									* (p.getPosition().getY() - p.getDernierePosition().getY());
+						} else {
+							deltaX =  (p.getCharge() + 1) * p.getDeltaPosition().getX() + Configuration.coefFriction
+									* (p.getPosition().getX() - p.getDernierePosition().getX());
+							deltaY =  (p.getCharge() + 1) * p.getDeltaPosition().getY() + Configuration.coefFriction
+									* (p.getPosition().getY() - p.getDernierePosition().getY());
+							p.resCharge();
 						}
 
-						// System.out.println("Id : " + p.getPlayerID()+ " deltaX : " + deltaX + "
-						// deltaY : " + deltaY + " p.position : "+ p.getPosition().toString());
+						Setup.getSemaphore().acquire();
+						tempPos.setPosition(p.getPosition().getX(), p.getPosition().getY());
+						
 						p.setPosition(p.getPosition().getX() + deltaX, p.getPosition().getY() + deltaY);
-						// System.out.println("ID : " + p.getPlayerID()+ " TempPos : " +
-						// tempPos.toString());
 						p.setDernierePosition(tempPos);
-						// System.out.println("\nDerniere position : " +
-						// p.getDernierePosition().toString());
-						// System.out.println("Id : " + p.getPlayerID()+ " deltaX : " + deltaX + "
-						// deltaY : " + deltaY + "\nposition : "+ p.getPosition().toString() + "
-						// dernierePosition : " + p.getDernierePosition().toString() + "\n
-						// deltaPosition" + p.getDeltaPosition().toString()) ;
-
-						// System.out.println("id : "+ p.getPlayerID()+ " deltaPosition : " +
-						// p.getDeltaPosition().toString());
-						// p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
-						// p.getPosition().getY() + p.getDeltaPosition().getY());
 						if (p.getPion() != null) {
 							p.getPion().setCenterX(
 									p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
@@ -164,6 +146,16 @@ public class Display extends Application {
 									p.getPosition().getY() * (Configuration.boardRadius) / Configuration.mapRadius
 											+ Configuration.height / 2);
 							p.getPion().setRadius(Configuration.pionRadius);
+						}
+						p.setDernierePosition(tempPos);
+						if (p.getRange() != null) {
+							p.getRange().setCenterX(
+									p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
+											+ Configuration.width / 2);
+							p.getRange().setCenterY(
+									p.getPosition().getY() * (Configuration.boardRadius) / Configuration.mapRadius
+											+ Configuration.height / 2);
+							p.getRange().setRadius(Configuration.pionRadius*p.getCharge()/100);
 						}
 						Setup.getSemaphore().release();
 					} catch (InterruptedException e) {
@@ -218,6 +210,13 @@ public class Display extends Application {
 		timerLabel.setY(Configuration.height / 2 + 250);
 		timerLabel.setVisible(false);
 		root.getChildren().add(timerLabel);
+		
+		teamTimer = new Text();
+		teamTimer.setFont(new Font(30));
+		teamTimer.setText("");
+		teamTimer.setX(Configuration.width - 50);
+		teamTimer.setY(50);
+		root.getChildren().add(teamTimer);
 
 	}
 
@@ -252,9 +251,11 @@ public class Display extends Application {
 
 		if (p1.getTeam().getStrong() == p2.getTeam()) {
 			p1.upScore();
+			p2.downScore();
 			Setup.changePlayer(p2, p1.getTeam());
 		} else if (p2.getTeam().getStrong() == p1.getTeam()) {
 			p2.upScore();
+			p1.downScore();
 			Setup.changePlayer(p1, p2.getTeam());
 		}
 	}
@@ -266,6 +267,8 @@ public class Display extends Application {
 		if (distance == 0) {
 			p1.getPosition().incX();
 			p2.getPosition().decX();
+			p1.setDernierePosition(p1.getPosition().getX(),p1.getPosition().getY());
+			p2.setDernierePosition(p2.getPosition().getX(),p2.getPosition().getY());
 			distance = centre.distance(p1.getPosition());
 		}
 		double deltaX = (centre.getX() - p1.getPosition().getX()) * (Configuration.microbeRadius / distance);
@@ -450,6 +453,16 @@ public class Display extends Application {
 				pion.setStroke(Color.BLACK);
 				pion.setStrokeWidth(0);
 				root.getChildren().add(pion);
+				
+				Circle range = new Circle();
+				player.setRange(range);
+				range.setCenterX((int) Configuration.width / 2);
+				range.setCenterY((int) Configuration.height / 2);
+				range.setRadius(0);
+				range.setFill(null);
+				range.setStroke(Color.BLACK);
+				range.setStrokeWidth(2);
+				root.getChildren().add(range);
 			}
 		});
 	}
@@ -580,6 +593,18 @@ public class Display extends Application {
 			@Override
 			public void run() {
 				timerLabel.setText("" + i);
+			}
+		});
+	}
+	
+	public static void setTeamTimer(int i) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (i>=0)
+				teamTimer.setText("" + i);
+				else 
+					teamTimer.setText("");
 			}
 		});
 	}

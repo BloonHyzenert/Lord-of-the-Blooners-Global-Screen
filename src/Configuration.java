@@ -18,5 +18,5 @@ public class Configuration {
 	public static double visionX = 1500;
 	public static double visionY = 500;
 	public static int vitesseMax = 15;
-	public static double coefFriction = 0.95;
+	public static double coefFriction = 0.96;
 }

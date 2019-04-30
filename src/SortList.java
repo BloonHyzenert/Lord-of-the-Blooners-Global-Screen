@@ -107,6 +107,7 @@ public class SortList implements Runnable {
 				e.printStackTrace();
 			}
 			teamTime++;
+			Display.setTeamTimer(15-teamTime);
 		}
 
 	}

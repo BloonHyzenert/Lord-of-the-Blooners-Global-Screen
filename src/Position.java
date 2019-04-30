@@ -50,12 +50,12 @@ public class Position {
 	}
 
 	public void incX() {
-		x += 10;
+		x += Configuration.microbeRadius;
 
 	}
 
 	public void decX() {
-		x -= 10;
+		x -= Configuration.microbeRadius;
 
 	}
 }

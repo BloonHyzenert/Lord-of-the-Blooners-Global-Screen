@@ -37,6 +37,14 @@ public class ClientRequest implements Runnable {
 						break;
 					case 1:
 						player.move(Double.parseDouble(tabInfos[1]), Double.parseDouble(tabInfos[2]));
+						switch(Integer.parseInt(tabInfos[3])) {
+						case 0:
+							player.setChargement(false);
+							break;
+						case 1:
+							player.setChargement(true);
+							
+						}
 						toSend = "1," + player.getPosition().toString() + "," + nextTo();
 
 					default:

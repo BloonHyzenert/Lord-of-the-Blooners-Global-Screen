@@ -49,6 +49,7 @@ public class Setup {
 		player.getPion().setVisible(false);
 		player.getNameBox().setVisible(false);
 		player.getScoreBox().setVisible(false);
+		player.getRange().setVisible(false);
 		Setup.getPlayerList().remove(player);
 		player.getTeam().removePlayer(player);
 	}
