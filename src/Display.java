@@ -87,12 +87,14 @@ public class Display extends Application {
 					try {
 						Position tempPos = new Position();
 						double deltaX, deltaY;
+						
 						double vitesseDeplacement;
 						// System.out.println(p.getPosition().toString());
 						Setup.getSemaphore().acquire();
 						tempPos.setPosition(p.getPosition().getX(), p.getPosition().getY());
 						//System.out.println("X : " + p.getPosition().getX() + "   Y : " + p.getPosition().getY());
 						//System.out.println("X : " + tempPos.getX() + "   Y : " + tempPos.getY());
+						System.out.println("Dernierepos : " + p.getDernierePosition());
 						deltaX = p.getDeltaPosition().getX() + Configuration.coefFriction *(p.getPosition().getX() - p.getDernierePosition().getX());
 						deltaY = p.getDeltaPosition().getY() + Configuration.coefFriction *(p.getPosition().getY() - p.getDernierePosition().getY());
 						vitesseDeplacement = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
@@ -101,11 +103,12 @@ public class Display extends Application {
 							deltaX = (deltaX / vitesseDeplacement) * Configuration.vitesseMax;
 							deltaY = (deltaY / vitesseDeplacement) * Configuration.vitesseMax;
 						}
-						
+						System.out.println("DeltaX : " + deltaX);
 						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "    p.position : "+  p.getPosition().toString());
+						p.setDernierePosition(tempPos);
 						p.setPosition(p.getPosition().getX() + deltaX, p.getPosition().getY() + deltaY);
 						//System.out.println("ID : " + p.getPlayerID()+ "   TempPos : " + tempPos.toString());
-						p.setDernierePosition(tempPos);
+						
 						//System.out.println("\nDerniere position : " + p.getDernierePosition().toString());
 						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "\nposition : "+ p.getPosition().toString() + "  dernierePosition : " + p.getDernierePosition().toString() + "\n deltaPosition" + p.getDeltaPosition().toString()) ;
 						

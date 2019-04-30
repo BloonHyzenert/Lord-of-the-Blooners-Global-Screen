@@ -39,15 +39,15 @@ public class Player implements Comparable<Player> {
 		switch (team.getName()) {
 		case "Krok":
 			setPosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
-			//setDernierePosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
+			setDernierePosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Blurp":
 			setPosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
-			//setDernierePosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
+			setDernierePosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
 			break;
 		case "Grounch":
 			setPosition(0,Configuration.mapRadius/2.0);
-			//setDernierePosition(0,Configuration.mapRadius/2.0);
+			setDernierePosition(0,Configuration.mapRadius/2.0);
 			break;
 		case "Item":
 			setPosition(new Position(-Configuration.maxMapRadius / 2, -Configuration.maxMapRadius / 2));
@@ -87,31 +87,36 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void setPosition(int x, int y) {
-		this.position.setPosition((double)x, (double) y);
+		this.setPosition((double)x, (double) y);
 	}
 	
-	public void setPosition(double d, double e) {
-		this.position.setPosition(d, e);
+	public void setPosition(double x, double y) {
+		double distance = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+		if (distance > Configuration.mapRadius - Configuration.microbeRadius) {
+			this.setDernierePosition(x, y);
+			System.out.println("SUUUUUUUUUUUUUUUUCCCCCCCCCCCCEEEEEEEEEEEEEESSSSSSSSSS"  + this.getDernierePosition().toString());
+			this.position.setPosition(x * (Configuration.mapRadius - Configuration.microbeRadius) / distance, y * (Configuration.mapRadius - Configuration.microbeRadius) / distance);
+		} else {
+			this.position.setPosition(x, y);
+		}
+		
 	}
 
 	public Position getDernierePosition() {
-		System.out.println("ID : "+ this.playerID +"  Derniere position :" + this.dernierePosition);
 		return this.dernierePosition;
 	}
 
 	public void setDernierePosition(Position dernierePosition) {
-		System.out.println("ID : "+ this.playerID +"  New Derniere position :" + this.dernierePosition);
 		this.dernierePosition = dernierePosition;
-		System.out.println("ID : "+ this.playerID +"  New Derniere position2 :" + this.dernierePosition);
 	}
 
-	/*public void setDernierePosition(int x, int y) {
+	public void setDernierePosition(int x, int y) {
 		this.dernierePosition.setPosition((double)x, (double) y);
 	}
 	
 	public void setDernierePosition(double d, double e) {
 		this.dernierePosition.setPosition(d, e);
-	}*/
+	}
 
 	public Team getTeam() {
 		return team;
