@@ -27,8 +27,7 @@ public class SortList implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		Display.timerLabel.setVisible(false);
 		Display.play();
 		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 2 * Configuration.microbeRadius + 1;
@@ -82,12 +81,11 @@ public class SortList implements Runnable {
 
 				Display.actualizeScoreTeam(posB, posK, posG, scoreBlurp, scoreKrok, scoreGrounch);
 
-
 				if (Setup.getBlurp().size() == 0 || Setup.getKrok().size() == 0 || Setup.getGrounch().size() == 0) {
 					Configuration.start = false;
 					System.out.println("END");
 					Display.end();
-					teamTime=15;
+					teamTime = 15;
 				}
 				if (teamTime == 15) {
 					if (first == Setup.getBlurp() && !Display.BlurpSong.isPlaying())

@@ -26,14 +26,14 @@ public class ClientRequest implements Runnable {
 			try {
 				sock.setSoTimeout(1000);
 				String response = read();
-				//System.out.println("Response "+response);
+				// System.out.println("Response "+response);
 				if (response != "") {
 					String tabInfos[] = response.split(",");
 					switch (Integer.parseInt(tabInfos[0])) {
 					case 0:
 						player = new Player(this, tabInfos[1]);
-						toSend = "0,"+player.getPlayerID() + "," + player.getPseudo() + "," + player.getTeam().getName()
-								+ "," + player.getPosition().toString();
+						toSend = "0," + player.getPlayerID() + "," + player.getPseudo() + ","
+								+ player.getTeam().getName() + "," + player.getPosition().toString();
 						break;
 					case 1:
 						player.move(Double.parseDouble(tabInfos[1]), Double.parseDouble(tabInfos[2]));
@@ -42,17 +42,17 @@ public class ClientRequest implements Runnable {
 					default:
 						break;
 					}
-					//System.out.println("Command "+toSend);
+					// System.out.println("Command "+toSend);
 					writer.write(toSend);
 					writer.flush();
 				} else
 					closeConnexion = true;
-				
+
 				try {
 					TimeUnit.MILLISECONDS.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-					
+
 				}
 
 			} catch (SocketException e) {

@@ -38,16 +38,20 @@ public class Player implements Comparable<Player> {
 	public void setStartPosition() {
 		switch (team.getName()) {
 		case "Krok":
-			setPosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
-			setDernierePosition(Math.cos(Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(Math.PI/6.0)*Configuration.mapRadius/2.0);
+			setPosition(Math.cos(Math.PI / 6.0) * Configuration.mapRadius / 2.0,
+					-Math.sin(Math.PI / 6.0) * Configuration.mapRadius / 2.0);
+			setDernierePosition(Math.cos(Math.PI / 6.0) * Configuration.mapRadius / 2.0,
+					-Math.sin(Math.PI / 6.0) * Configuration.mapRadius / 2.0);
 			break;
 		case "Blurp":
-			setPosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
-			setDernierePosition(Math.cos(5*Math.PI/6.0)*Configuration.mapRadius/2.0,-Math.sin(5*Math.PI/6.0)*Configuration.mapRadius/2.0);
+			setPosition(Math.cos(5 * Math.PI / 6.0) * Configuration.mapRadius / 2.0,
+					-Math.sin(5 * Math.PI / 6.0) * Configuration.mapRadius / 2.0);
+			setDernierePosition(Math.cos(5 * Math.PI / 6.0) * Configuration.mapRadius / 2.0,
+					-Math.sin(5 * Math.PI / 6.0) * Configuration.mapRadius / 2.0);
 			break;
 		case "Grounch":
-			setPosition(0,Configuration.mapRadius/2.0);
-			setDernierePosition(0,Configuration.mapRadius/2.0);
+			setPosition(0, Configuration.mapRadius / 2.0);
+			setDernierePosition(0, Configuration.mapRadius / 2.0);
 			break;
 		case "Item":
 			setPosition(new Position(-Configuration.maxMapRadius / 2, -Configuration.maxMapRadius / 2));
@@ -87,28 +91,28 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void setPosition(int x, int y) {
-		this.position.setPosition((double)x, (double) y);
+		this.position.setPosition((double) x, (double) y);
 	}
-	
+
 	public void setPosition(double d, double e) {
 		this.position.setPosition(d, e);
 	}
 
 	public Position getDernierePosition() {
-		System.out.println("ID : "+ this.playerID +"  Derniere position :" + this.dernierePosition);
+		System.out.println("ID : " + this.playerID + "  Derniere position :" + this.dernierePosition);
 		return this.dernierePosition;
 	}
 
 	public void setDernierePosition(Position dernierePosition) {
-		System.out.println("ID : "+ this.playerID +"  New Derniere position :" + this.dernierePosition);
+		System.out.println("ID : " + this.playerID + "  New Derniere position :" + this.dernierePosition);
 		this.dernierePosition = dernierePosition;
-		System.out.println("ID : "+ this.playerID +"  New Derniere position2 :" + this.dernierePosition);
+		System.out.println("ID : " + this.playerID + "  New Derniere position2 :" + this.dernierePosition);
 	}
 
 	public void setDernierePosition(int x, int y) {
-		this.dernierePosition.setPosition((double)x, (double) y);
+		this.dernierePosition.setPosition((double) x, (double) y);
 	}
-	
+
 	public void setDernierePosition(double d, double e) {
 		this.dernierePosition.setPosition(d, e);
 	}
@@ -171,8 +175,8 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void upScore() {
-		score+=1;
-		
+		score += 1;
+
 	}
 
 }

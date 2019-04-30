@@ -27,7 +27,7 @@ public class Team {
 		this.playerList.remove(player);
 		return player;
 	}
-	
+
 	public Player get(int i) {
 		return playerList.get(i);
 	}
@@ -35,11 +35,11 @@ public class Team {
 	public int size() {
 		return playerList.size();
 	}
-	
+
 	public int getScore() {
 		int score = 0;
 		for (int i = 0; i < playerList.size(); i++) {
-			score+=playerList.get(i).getScore();
+			score += playerList.get(i).getScore();
 		}
 		return score;
 	}

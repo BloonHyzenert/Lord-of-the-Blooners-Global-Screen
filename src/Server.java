@@ -19,13 +19,9 @@ public class Server {
 		create();
 		open();
 	}
-	
-	
 
 	public void create() {
 		try {
-			NetworkInterface n1 = NetworkInterface.getByName("wlp2s0");
-			//System.out.println(n1.getInetAddresses().nextElement().getHostName());
 			Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 			while (e.hasMoreElements()) {
 				NetworkInterface n = (NetworkInterface) e.nextElement();
@@ -50,14 +46,14 @@ public class Server {
 		new Thread(new Runnable() {
 			public void run() {
 				while (!Configuration.end) {
-						if (Setup.getPlayerList().size() < 99) {
-							try {
-								Socket client = server.accept();
-								new Thread(new ClientRequest(client)).start();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
+					if (Setup.getPlayerList().size() < 99) {
+						try {
+							Socket client = server.accept();
+							new Thread(new ClientRequest(client)).start();
+						} catch (IOException e) {
+							e.printStackTrace();
 						}
+					}
 				}
 				System.out.println("end");
 				try {

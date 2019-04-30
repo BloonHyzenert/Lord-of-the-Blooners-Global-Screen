@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
 import sun.applet.Main;
 
 public class Setup {
@@ -77,27 +75,27 @@ public class Setup {
 			if (blurp.size() > krok.size()) {
 				max = blurp;
 				min = krok;
-				moy=grounch;
-			}else {
+				moy = grounch;
+			} else {
 				min = blurp;
 				max = krok;
-				moy=grounch;
+				moy = grounch;
 			}
-			if (grounch.size()>max.size()) {
-				moy=max;
+			if (grounch.size() > max.size()) {
+				moy = max;
 				max = grounch;
 			}
-			if (grounch.size()<min.size()) {
-				moy=min;
+			if (grounch.size() < min.size()) {
+				moy = min;
 				min = grounch;
 			}
-				
+
 			if (max.size() - min.size() > 1) {
 				changePlayer(max.get((int) (Math.random() * max.size())), min);
 				System.out.println("ok");
 			}
 
-		} while (max.size()-min.size()>1 || max.size()-moy.size()>1);
+		} while (max.size() - min.size() > 1 || max.size() - moy.size() > 1);
 
 	}
 

@@ -40,7 +40,6 @@ public class Display extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		
 
 		String bip0 = Main.class.getResource("/ressources/BlurpSong.mp3").toString();
 		Media hit = new Media(bip0);
@@ -68,7 +67,7 @@ public class Display extends Application {
 			public void handle(WindowEvent event) {
 				primaryStage.close();
 				System.exit(0);
-				
+
 			}
 		});
 
@@ -93,7 +92,7 @@ public class Display extends Application {
 					break;
 				default:
 					break;
-		
+
 				}
 			}
 		});
@@ -115,7 +114,8 @@ public class Display extends Application {
 			public void handle(long now) {
 				for (int i = 0; i < Setup.getPlayerList().size(); i++) {
 					Player p = Setup.getPlayerList().get(i);
-					//System.out.println("\nDerniere position : " + p.getDernierePosition().toString());
+					// System.out.println("\nDerniere position : " +
+					// p.getDernierePosition().toString());
 					try {
 						Position tempPos = new Position();
 						double deltaX, deltaY;
@@ -123,27 +123,39 @@ public class Display extends Application {
 						// System.out.println(p.getPosition().toString());
 						Setup.getSemaphore().acquire();
 						tempPos.setPosition(p.getPosition().getX(), p.getPosition().getY());
-						//System.out.println("X : " + p.getPosition().getX() + "   Y : " + p.getPosition().getY());
-						//System.out.println("X : " + tempPos.getX() + "   Y : " + tempPos.getY());
-						deltaX = p.getDeltaPosition().getX() + Configuration.coefFriction *(p.getPosition().getX() - p.getDernierePosition().getX());
-						deltaY = p.getDeltaPosition().getY() + Configuration.coefFriction *(p.getPosition().getY() - p.getDernierePosition().getY());
+						// System.out.println("X : " + p.getPosition().getX() + " Y : " +
+						// p.getPosition().getY());
+						// System.out.println("X : " + tempPos.getX() + " Y : " + tempPos.getY());
+						deltaX = p.getDeltaPosition().getX() + Configuration.coefFriction
+								* (p.getPosition().getX() - p.getDernierePosition().getX());
+						deltaY = p.getDeltaPosition().getY() + Configuration.coefFriction
+								* (p.getPosition().getY() - p.getDernierePosition().getY());
 						vitesseDeplacement = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
-						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "\np.position : "+  p.getPosition().toString() + "    p.derniereposition" + p.getDernierePosition().toString());
+						// System.out.println("Id : " + p.getPlayerID()+ " deltaX : " + deltaX + "
+						// deltaY : " + deltaY + "\np.position : "+ p.getPosition().toString() + "
+						// p.derniereposition" + p.getDernierePosition().toString());
 						if (vitesseDeplacement > Configuration.vitesseMax) {
 							deltaX = (deltaX / vitesseDeplacement) * Configuration.vitesseMax;
 							deltaY = (deltaY / vitesseDeplacement) * Configuration.vitesseMax;
 						}
-						
-						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "    p.position : "+  p.getPosition().toString());
+
+						// System.out.println("Id : " + p.getPlayerID()+ " deltaX : " + deltaX + "
+						// deltaY : " + deltaY + " p.position : "+ p.getPosition().toString());
 						p.setPosition(p.getPosition().getX() + deltaX, p.getPosition().getY() + deltaY);
-						//System.out.println("ID : " + p.getPlayerID()+ "   TempPos : " + tempPos.toString());
+						// System.out.println("ID : " + p.getPlayerID()+ " TempPos : " +
+						// tempPos.toString());
 						p.setDernierePosition(tempPos);
-						//System.out.println("\nDerniere position : " + p.getDernierePosition().toString());
-						//System.out.println("Id : " + p.getPlayerID()+ "  deltaX : " + deltaX + "  deltaY : " + deltaY + "\nposition : "+ p.getPosition().toString() + "  dernierePosition : " + p.getDernierePosition().toString() + "\n deltaPosition" + p.getDeltaPosition().toString()) ;
-						
-						//System.out.println("id : "+ p.getPlayerID()+ "    deltaPosition : " + p.getDeltaPosition().toString());
-						//p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
-								//p.getPosition().getY() + p.getDeltaPosition().getY());
+						// System.out.println("\nDerniere position : " +
+						// p.getDernierePosition().toString());
+						// System.out.println("Id : " + p.getPlayerID()+ " deltaX : " + deltaX + "
+						// deltaY : " + deltaY + "\nposition : "+ p.getPosition().toString() + "
+						// dernierePosition : " + p.getDernierePosition().toString() + "\n
+						// deltaPosition" + p.getDeltaPosition().toString()) ;
+
+						// System.out.println("id : "+ p.getPlayerID()+ " deltaPosition : " +
+						// p.getDeltaPosition().toString());
+						// p.setPosition(p.getPosition().getX() + p.getDeltaPosition().getX(),
+						// p.getPosition().getY() + p.getDeltaPosition().getY());
 						if (p.getPion() != null) {
 							p.getPion().setCenterX(
 									p.getPosition().getX() * (Configuration.boardRadius) / Configuration.mapRadius
@@ -155,7 +167,7 @@ public class Display extends Application {
 						}
 						Setup.getSemaphore().release();
 					} catch (InterruptedException e) {
-						 e.printStackTrace();
+						e.printStackTrace();
 					}
 				}
 
@@ -297,8 +309,8 @@ public class Display extends Application {
 				KrokSong.stop();
 				GrounchSong.stop();
 				BlurpSong.stop();
-				if( song !=null)
-				song.play();
+				if (song != null)
+					song.play();
 			}
 		});
 
