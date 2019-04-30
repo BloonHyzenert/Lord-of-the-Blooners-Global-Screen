@@ -1,12 +1,16 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.text.Text;
+
 public class Team {
 
 	private String name;
 	private String color;
 	private List<Player> playerList;
 	private Team strong;
+	private Text scoreBox;
+	private Text nameBox;
 
 	public Team(String tname, String tcolor) {
 		name = tname;
@@ -23,9 +27,21 @@ public class Team {
 		this.playerList.remove(player);
 		return player;
 	}
+	
+	public Player get(int i) {
+		return playerList.get(i);
+	}
 
 	public int size() {
 		return playerList.size();
+	}
+	
+	public int getScore() {
+		int score = 0;
+		for (int i = 0; i < playerList.size(); i++) {
+			score+=playerList.get(i).getScore();
+		}
+		return score;
 	}
 
 	public String getName() {
@@ -46,6 +62,22 @@ public class Team {
 
 	public String getColor() {
 		return color;
+	}
+
+	public Text getScoreBox() {
+		return scoreBox;
+	}
+
+	public void setScoreBox(Text scoreBox) {
+		this.scoreBox = scoreBox;
+	}
+
+	public Text getNameBox() {
+		return nameBox;
+	}
+
+	public void setNameBox(Text nameBox) {
+		this.nameBox = nameBox;
 	}
 
 }
