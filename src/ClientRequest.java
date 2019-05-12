@@ -73,6 +73,7 @@ public class ClientRequest implements Runnable {
 
 	}
 
+	
 	private String nextTo() {
 		String toSend = "";
 		int taille = 0;
