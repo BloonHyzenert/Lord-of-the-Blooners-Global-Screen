@@ -18,13 +18,15 @@ public class ClientRequest implements Runnable {
 		sock = client;
 		writer = new PrintWriter(sock.getOutputStream());
 		reader = new BufferedInputStream(sock.getInputStream());
+		sock.setSoTimeout(5000);
 	}
 
 	@Override
 	public void run() {
+		double vitesse=1;
 		while (!sock.isClosed() && !Configuration.end && !closeConnexion) {
 			try {
-				sock.setSoTimeout(5000);
+				vitesse = 1.5;
 				String response = read();
 				// System.out.println("Response "+response);
 				if (response != "") {
@@ -36,7 +38,7 @@ public class ClientRequest implements Runnable {
 								+ player.getTeam().getName() + "," + player.getPosition().toString();
 						break;
 					case 1:
-						player.move(Double.parseDouble(tabInfos[1]), Double.parseDouble(tabInfos[2]));
+						player.move(vitesse*Double.parseDouble(tabInfos[1]), vitesse*Double.parseDouble(tabInfos[2]));
 						switch(Integer.parseInt(tabInfos[3])) {
 						case 0:
 							player.setChargement(false);
