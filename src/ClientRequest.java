@@ -45,7 +45,7 @@ public class ClientRequest implements Runnable {
 							player.setChargement(true);
 							
 						}
-						toSend = "1," + player.getPosition().toString() +","+player.getTeam().getName()+ ","+player.getScore()+",0" /*+ nextTo()*/;
+						toSend = "1," + player.getPosition().toString() +","+player.getTeam().getName()+ ","+player.getPlayerID()+","+player.getScore()+",0" /*+ nextTo()*/;
 
 					default:
 						break;
