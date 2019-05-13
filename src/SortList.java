@@ -32,7 +32,7 @@ public class SortList implements Runnable {
 
 		Display.timerLabel.setVisible(false);
 		Display.play();
-		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 1.5 * Configuration.microbeRadius + 1;
+		Configuration.maxMapRadius = (Math.sqrt(Setup.getPlayerList().size())) * 5 * Configuration.microbeRadius + 1;
 		Configuration.mapRadius = Configuration.maxMapRadius;
 		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
 				/ (double) Configuration.maxMapRadius);
