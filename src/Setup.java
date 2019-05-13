@@ -12,6 +12,7 @@ public class Setup {
 	private static Team item = new Team("Item", "white");
 	private static List<Player> playerList = new ArrayList<Player>();
 	public static String strongImage;
+	public static String font;
 
 	public Setup() {
 		semaPlayerList = new Semaphore(1, true);
@@ -19,9 +20,11 @@ public class Setup {
 		grounch.setStrong(krok);
 		blurp.setStrong(grounch);
 		strongImage = Main.class.getResource("/ressources/strongCircle.png").toString();
+		font = Main.class.getResource("/ressources/Candy.otf").toExternalForm();
 	}
 
 	public static void init() {
+		Configuration.stop=false;
 		Display.premier.setVisible(false);
 		Display.deuxieme.setVisible(false);
 		Display.troisieme.setVisible(false);
@@ -50,7 +53,8 @@ public class Setup {
 		player.getNameBox().setVisible(false);
 		player.getScoreBox().setVisible(false);
 		player.getRange().setVisible(false);
-		Setup.getPlayerList().remove(player);
+		player.getIdBox().setVisible(false);
+		playerList.remove(player);
 		player.getTeam().removePlayer(player);
 	}
 

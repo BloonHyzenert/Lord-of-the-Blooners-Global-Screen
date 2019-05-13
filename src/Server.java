@@ -9,7 +9,7 @@ import java.util.Enumeration;
 
 public class Server {
 
-	private static int PORT = 7778;
+	private static int PORT = 8005;
 
 	private static ServerSocket server;
 
@@ -29,11 +29,10 @@ public class Server {
 				while (ee.hasMoreElements()) {
 					InetAddress i = (InetAddress) ee.nextElement();
 					hostAddress.add(i);
-					if (i instanceof Inet4Address && !i.isLoopbackAddress() && !i.isLinkLocalAddress()) {
-						Configuration.host = i.getHostAddress();
-					}
+					System.out.println(i.getHostAddress());
 				}
 			}
+			Configuration.host="192.168.1.2";
 			server = new ServerSocket(PORT, 99);
 			System.out.println("Launching : Port " + PORT + " IP " + Configuration.host + " Nom "
 					+ InetAddress.getLocalHost().getHostName());

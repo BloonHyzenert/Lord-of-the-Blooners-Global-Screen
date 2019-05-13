@@ -5,12 +5,14 @@ public class Player implements Comparable<Player> {
 
 	private int playerID;
 	private static int nbPlayer = 0;
+
 	private String pseudo;
 	private Team team;
 	private Circle pion;
 	private Circle range;
 	private Text nameBox;
 	private Text scoreBox;
+	private Text idBox;
 	private int score;
 	private boolean chargement = false;
 	private int charge = 0;
@@ -30,12 +32,18 @@ public class Player implements Comparable<Player> {
 		Setup.addPlayer(this);
 		Display.addPion(this);
 		Display.addText(this);
+		Display.addIdBox(this);
 		System.out.println("Le joueur n°" + getPlayerID() + " : " + getPseudo() + " a rejoint la partie");
 
 	}
 
 	public void move(double dx, double dy) {
 		deltaPosition.setPosition(dx, dy);
+	}
+	
+
+	public static int getNbPlayer() {
+		return nbPlayer;
 	}
 
 	public void setStartPosition() {
@@ -175,11 +183,11 @@ public class Player implements Comparable<Player> {
 	}
 
 	public void upScore() {
-		score += 1;
+		score += 2;
 	}
 	
 	public void downScore() {
-		score += 1;
+		score -= 1;
 	}
 
 	public boolean isChargement() {
@@ -196,7 +204,7 @@ public class Player implements Comparable<Player> {
 
 	public void incCharge() {
 		if(charge<100)
-		charge++;
+		charge+=2;
 	}
 	
 	public void resCharge() {
@@ -209,6 +217,14 @@ public class Player implements Comparable<Player> {
 
 	public void setRange(Circle range) {
 		this.range = range;
+	}
+
+	public Text getIdBox() {
+		return idBox;
+	}
+
+	public void setIdBox(Text idBox) {
+		this.idBox = idBox;
 	}
 
 }

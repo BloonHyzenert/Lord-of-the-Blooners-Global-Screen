@@ -51,11 +51,13 @@ public class Position {
 
 	public void incX() {
 		x += Configuration.microbeRadius;
+		y += Math.random() * Configuration.microbeRadius*2 - Configuration.microbeRadius;
 
 	}
 
 	public void decX() {
 		x -= Configuration.microbeRadius;
+		y += Math.random() * Configuration.microbeRadius*2 - Configuration.microbeRadius;
 
 	}
 }

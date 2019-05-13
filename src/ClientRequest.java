@@ -24,7 +24,7 @@ public class ClientRequest implements Runnable {
 	public void run() {
 		while (!sock.isClosed() && !Configuration.end && !closeConnexion) {
 			try {
-				sock.setSoTimeout(1000);
+				sock.setSoTimeout(5000);
 				String response = read();
 				// System.out.println("Response "+response);
 				if (response != "") {
@@ -45,7 +45,7 @@ public class ClientRequest implements Runnable {
 							player.setChargement(true);
 							
 						}
-						toSend = "1," + player.getPosition().toString() + "," + nextTo();
+						toSend = "1," + player.getPosition().toString() +","+player.getTeam().getName()+ ","+player.getScore()+",0" /*+ nextTo()*/;
 
 					default:
 						break;
@@ -81,6 +81,7 @@ public class ClientRequest implements Runnable {
 
 	}
 
+	
 	private String nextTo() {
 		String toSend = "";
 		int taille = 0;

@@ -11,7 +11,8 @@ public class SortList implements Runnable {
 		Display.timerLabel.setVisible(true);
 		for (int j = 5; j > 0; j--) {
 			Display.start(j);
-			Display.bip.play();
+			if (Display.bip != null)
+				Display.bip.play();
 			try {
 				TimeUnit.SECONDS.sleep(1);
 			} catch (InterruptedException e) {
@@ -20,7 +21,8 @@ public class SortList implements Runnable {
 			}
 		}
 		Display.start(0);
-		Display.bipend.play();
+		if (Display.bipend != null)
+			Display.bipend.play();
 		try {
 			TimeUnit.MICROSECONDS.sleep(500);
 		} catch (InterruptedException e) {
@@ -30,7 +32,7 @@ public class SortList implements Runnable {
 
 		Display.timerLabel.setVisible(false);
 		Display.play();
-		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 2 * Configuration.microbeRadius + 1;
+		Configuration.maxMapRadius = (Setup.getPlayerList().size()) * 1.5 * Configuration.microbeRadius + 1;
 		Configuration.mapRadius = Configuration.maxMapRadius;
 		Configuration.pionRadius = (int) (Configuration.boardRadius * Configuration.microbeRadius
 				/ (double) Configuration.maxMapRadius);
@@ -38,8 +40,6 @@ public class SortList implements Runnable {
 		Setup.setStartPositions();
 		Configuration.start = true;
 		while (!Configuration.end && Configuration.start) {
-
-			System.out.println(first + "  " + teamTime);
 			try {
 				Setup.getSemaphore().acquire();
 				Collections.sort(Setup.getPlayerList(), Collections.reverseOrder());
@@ -81,18 +81,19 @@ public class SortList implements Runnable {
 
 				Display.actualizeScoreTeam(posB, posK, posG, scoreBlurp, scoreKrok, scoreGrounch);
 
-				if (Setup.getBlurp().size() == 0 || Setup.getKrok().size() == 0 || Setup.getGrounch().size() == 0) {
+				if (Setup.getBlurp().size() == 0 || Setup.getKrok().size() == 0 || Setup.getGrounch().size() == 0  || Configuration.stop) {
 					Configuration.start = false;
 					System.out.println("END");
 					Display.end();
 					teamTime = 15;
 				}
 				if (teamTime == 15) {
-					if (first == Setup.getBlurp() && !Display.BlurpSong.isPlaying())
+					if (first == Setup.getBlurp() && Display.BlurpSong != null && !Display.BlurpSong.isPlaying())
 						Display.play(Display.BlurpSong);
-					else if (first == Setup.getKrok() && !Display.KrokSong.isPlaying())
+					else if (first == Setup.getKrok() && Display.KrokSong != null && !Display.KrokSong.isPlaying())
 						Display.play(Display.KrokSong);
-					else if (first == Setup.getGrounch() && !Display.GrounchSong.isPlaying())
+					else if (first == Setup.getGrounch() && Display.GrounchSong != null
+							&& !Display.GrounchSong.isPlaying())
 						Display.play(Display.GrounchSong);
 				}
 
@@ -107,9 +108,10 @@ public class SortList implements Runnable {
 				e.printStackTrace();
 			}
 			teamTime++;
-			Display.setTeamTimer(15-teamTime);
+			Display.setTeamTimer(15 - teamTime);
 		}
-
+		
 	}
+	
 
 }
